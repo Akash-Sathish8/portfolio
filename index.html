@@ -14,311 +14,409 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>
-  try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* Design tokens (shadcn zinc system); dark mode resolves automatically */
   :root {
-    --bg: #fbfbfa; --fg: #16181d; --muted: #5d6470; --faint: #8a909a;
-    --line: #e7e7e4; --card: #ffffff; --accent: #2f7fbf; --accent-soft: #e8f2fa; --chip: #f1f1ef;
+    --neutral-primary-soft: #FFFFFF;
+    --neutral-secondary-soft: #FAFAFA;
+    --neutral-secondary-medium: #F4F4F5;
+    --neutral-tertiary: #F4F4F5;
+    --neutral-tertiary-medium: #E4E4E7;
+    --brand-softer: #F5F5F5;
+    --brand: #2E2E2E;
+    --brand-medium: #D4D4D4;
+    --brand-strong: #1A1A1A;
+    --success: #16A34A;
+    --success-soft: #F0FDF4;
+    --heading: #09090B;
+    --body: #71717A;
+    --body-subtle: #A1A1AA;
+    --fg-brand: #2E2E2E;
+    --fg-brand-strong: #1A1A1A;
+    --fg-success-strong: #15803D;
+    --on-brand: #FFFFFF;
+    --border-default: #E4E4E7;
+    --border-default-medium: #E4E4E7;
+    --border-brand-subtle: #D4D4D4;
+    --border-success-subtle: #BBF7D0;
+    --border-buffer: #FFFFFF;
+    --color-1-400: rgba(255,255,255,0.06);
+    --color-1-700: rgba(0,0,0,0.04);
+    --shadow-2xs: 0 1px rgb(0 0 0 / 0.05);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+    --radius-base: 8px;
+    --radius-default: 6px;
+    --radius-full: 9999px;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0e1013; --fg: #e9eaec; --muted: #a2a8b3; --faint: #6f7682;
-      --line: #23262c; --card: #15181c; --accent: #7bbbe8; --accent-soft: #15283a; --chip: #1b1e23;
+    :root {
+      --neutral-primary-soft: #09090B;
+      --neutral-secondary-soft: #09090B;
+      --neutral-secondary-medium: #18181B;
+      --neutral-tertiary: #18181B;
+      --neutral-tertiary-medium: #27272A;
+      --brand-softer: #1A1A1A;
+      --brand: #D4D4D4;
+      --brand-medium: #252525;
+      --brand-strong: #E5E5E5;
+      --success: #22C55E;
+      --success-soft: #052E16;
+      --heading: #FAFAFA;
+      --body: #A1A1AA;
+      --body-subtle: #71717A;
+      --fg-brand: #D4D4D4;
+      --fg-brand-strong: #E5E5E5;
+      --fg-success-strong: #4ADE80;
+      --on-brand: #09090B;
+      --border-default: #27272A;
+      --border-default-medium: #3F3F46;
+      --border-brand-subtle: #252525;
+      --border-success-subtle: #14532D;
+      --border-buffer: #09090B;
+      --color-1-400: rgba(255,255,255,0.04);
+      --color-1-700: rgba(0,0,0,0.06);
     }
   }
-  :root[data-theme="dark"] {
-    --bg: #0e1013; --fg: #e9eaec; --muted: #a2a8b3; --faint: #6f7682;
-    --line: #23262c; --card: #15181c; --accent: #7bbbe8; --accent-soft: #15283a; --chip: #1b1e23;
-  }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0; background: var(--bg); color: var(--fg);
-    font: 16px/1.65 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    -webkit-font-smoothing: antialiased; transition: background .2s, color .2s;
+    margin: 0; background: var(--neutral-primary-soft); color: var(--body);
+    font: 16px/1.625 Inter, sans-serif; -webkit-font-smoothing: antialiased;
   }
-  a { color: inherit; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  a { color: var(--fg-brand); }
+  a:hover { text-decoration: none; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
-  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 85%, transparent);
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; }
-  nav.scrolled { border-bottom-color: var(--line); }
-  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  nav .logo { font-weight: 700; text-decoration: none; letter-spacing: -.02em; }
-  nav .links { display: flex; gap: 22px; align-items: center; font-size: 14px; }
-  nav .links a { text-decoration: none; color: var(--muted); }
-  nav .links a:hover { color: var(--fg); }
-  .theme-btn { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
-               width: 34px; height: 34px; cursor: pointer; display: grid; place-items: center; }
-  .theme-btn:hover { color: var(--fg); }
-  .theme-btn svg { width: 16px; height: 16px; }
-  .sun { display: none; }
-  :root[data-theme="dark"] .sun { display: block; } :root[data-theme="dark"] .moon { display: none; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .sun { display: block; } :root:not([data-theme="light"]) .moon { display: none; }
+  h1, h2, h3 { color: var(--heading); font-weight: 600; margin: 0; }
+  h1 { font-size: 30px; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 24px; }
+  h2 { font-size: 24px; line-height: 1.2; letter-spacing: -0.4px; }
+  h3 { font-size: 16px; line-height: 1.4; font-weight: 500; }
+  @media (min-width: 768px) { h1 { font-size: 36px; } h2 { font-size: 30px; } h3 { font-size: 18px; } }
+  @media (min-width: 1024px) { h1 { font-size: 48px; } h2 { font-size: 36px; } }
+  p { margin: 0; }
+  .lead { font-size: 18px; line-height: 1.625; }
+  .small { font-size: 14px; line-height: 1.5; }
+  .label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; color: var(--body-subtle); }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 10; background: var(--neutral-primary-soft); border-bottom: 1px solid var(--border-default); }
+  .nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-name { display: flex; align-items: center; gap: 10px; color: var(--heading); font-weight: 500; text-decoration: none; }
+  .nav-name img { width: 32px; height: 32px; border-radius: var(--radius-full); object-fit: cover; }
+  .nav-links { display: flex; gap: 4px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; box-sizing: border-box;
+    font: 500 14px/1.25 Inter, sans-serif; padding: 8px 16px; border-radius: var(--radius-base);
+    border: 1px solid transparent; text-decoration: none; cursor: pointer;
+    transition: color .15s, background-color .15s;
+    box-shadow: var(--shadow-2xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px;
+  }
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .btn-lg { padding: 10px 24px; }
+  .btn-brand { background: var(--brand); color: var(--on-brand); }
+  .btn-brand:hover { background: var(--brand-strong); }
+  .btn-brand:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--brand-medium); }
+  .btn-tertiary { background: var(--neutral-primary-soft); border-color: var(--border-default); color: var(--body); }
+  .btn-tertiary:hover { background: var(--neutral-secondary-medium); color: var(--heading); }
+  .btn-tertiary:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--neutral-tertiary); }
+  .btn-ghost { background: transparent; color: var(--heading); box-shadow: none; padding: 6px 12px; }
+  .btn-ghost:hover { background: var(--neutral-secondary-medium); }
+  .btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--neutral-tertiary); }
+
+  /* Badges */
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; line-height: 1.5;
+           padding: 2px 6px; border-radius: var(--radius-default); border: 1px solid; }
+  .badge-lg { font-size: 14px; padding: 4px 8px; }
+  .badge-gray { background: var(--neutral-secondary-medium); border-color: var(--border-default); color: var(--heading); }
+  .badge-brand { background: var(--brand-softer); border-color: var(--border-brand-subtle); color: var(--fg-brand-strong); }
+  .badge-success { background: var(--success-soft); border-color: var(--border-success-subtle); color: var(--fg-success-strong); }
+  .dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--success); }
+
+  /* Sections */
+  section { padding: 32px 0; border-top: 1px solid var(--border-default); }
+  section.alt { background: var(--neutral-secondary-soft); }
+  @media (min-width: 768px) { section { padding: 48px 0; } }
+  @media (min-width: 1024px) { section { padding: 64px 0; } }
+  .section-head { margin-bottom: 32px; }
+  .section-head p { margin-top: 12px; max-width: 65ch; }
+
+  /* Hero */
+  .hero { border-top: 0; }
+  .hero-grid { display: grid; gap: 48px; align-items: center; }
+  .hero .badge { margin-bottom: 24px; }
+  .hero .lead { margin-bottom: 32px; }
+  .hero .lead strong { color: var(--heading); font-weight: 500; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .portrait {
+    justify-self: center; width: 100%; max-width: 360px; aspect-ratio: 1; padding: 4px;
+    border-radius: var(--radius-full); box-shadow: 0 0 0 2px var(--border-default);
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full); display: block; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .stat { border-left: 1px solid var(--border-default); padding-left: 16px; }
+  .stat b { display: block; color: var(--heading); font-size: 24px; font-weight: 600; line-height: 1.3; }
+  @media (min-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr 360px; gap: 64px; }
   }
 
-  header.hero { padding: 72px 0 56px; }
-  .hero-top { display: flex; gap: 28px; align-items: center; }
-  .avatar { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
-            border: 3px solid var(--card); box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(0,0,0,.08); }
-  h1 { font-size: 44px; line-height: 1.1; margin: 0 0 6px; letter-spacing: -.035em; font-weight: 700; }
-  .tagline { margin: 0; color: var(--muted); font-size: 17px; }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 0 3px color-mix(in srgb, #3fb950 25%, transparent); }
-  .intro { font-size: 18px; margin: 32px 0 28px; max-width: 640px; }
-  .intro strong { font-weight: 600; }
-  .cta { display: flex; flex-wrap: wrap; gap: 10px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 10px; font-size: 14px;
-         font-weight: 500; text-decoration: none; border: 1px solid var(--line); background: var(--card); transition: transform .15s, border-color .15s; }
-  .btn:hover { border-color: var(--faint); transform: translateY(-1px); }
-  .btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-  .btn svg { width: 16px; height: 16px; }
+  /* Cards */
+  .grid-3 { display: grid; gap: 24px; }
+  .grid-2 { display: grid; gap: 24px; }
+  @media (min-width: 768px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+  .card {
+    background: var(--neutral-primary-soft); border: 1px solid var(--border-default); border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm); padding: 24px; display: flex; flex-direction: column;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+  .card .meta { margin-bottom: 16px; }
+  .card ul { margin: 0 0 16px; padding-left: 24px; font-size: 14px; line-height: 1.5; }
+  .card li + li { margin-top: 8px; }
+  .card li strong { color: var(--heading); font-weight: 500; }
+  .card p.small { margin-bottom: 16px; }
+  .card .badges { margin-top: auto; }
 
-  section { padding: 44px 0; border-top: 1px solid var(--line); }
-  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 0 0 28px; font-weight: 600; }
+  .skill-row + .skill-row { margin-top: 24px; }
+  .skill-row .label { margin-bottom: 8px; }
 
-  .job { display: grid; grid-template-columns: 150px 1fr; gap: 24px; margin-bottom: 34px; }
-  .job:last-child { margin-bottom: 0; }
-  .when { color: var(--faint); font-size: 13px; padding-top: 3px; }
-  .job h3 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
-  .role { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
-  ul { margin: 0; padding-left: 18px; color: var(--muted); }
-  li { margin: 5px 0; } li::marker { color: var(--faint); }
-  li b { color: var(--fg); font-weight: 600; }
+  /* Contact */
+  .contact { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 1024px) { .contact { grid-template-columns: 1fr auto; } }
+  footer { border-top: 1px solid var(--border-default); padding: 24px 0; }
+  footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
-  .projects { display: grid; gap: 16px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; transition: border-color .15s, transform .15s; }
-  .card:hover { border-color: var(--faint); transform: translateY(-2px); }
-  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .card h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
-  .kind { font-size: 13px; color: var(--accent); }
-  .card p { margin: 8px 0 14px; color: var(--muted); }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); }
-  .badge { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+  /* Page-load sequence */
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .in { animation: rise .5s ease both; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .19s; } .d4 { animation-delay: .26s; } .d5 { animation-delay: .33s; }
+  @media (prefers-reduced-motion: reduce) { .in { animation: none; } html { scroll-behavior: auto; } }
 
-  .edu h3 { margin: 0; font-size: 17px; font-weight: 600; }
-  .edu .role { margin-bottom: 14px; }
-  .honors { display: flex; flex-wrap: wrap; gap: 8px; }
+  /* Mobile layout */
+  @media (max-width: 639px) {
+    .container { padding: 0 16px; }
+    .nav .container { height: 56px; }
+    .nav-links .hide-sm { display: none; }
+    .nav-links .btn { padding: 8px 12px; min-height: 40px; }
 
-  .skills { display: grid; gap: 18px; }
-  .skills-row { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: start; }
-  .skills-row .label { color: var(--faint); font-size: 13px; padding-top: 4px; }
+    .hero { padding: 24px 0 32px; }
+    .hero-grid { gap: 24px; }
+    .portrait { order: -1; justify-self: start; max-width: 120px; padding: 3px; }
+    .hero .badge { margin-bottom: 16px; font-size: 12px; padding: 2px 6px; }
+    h1 { font-size: 28px; line-height: 1.15; margin-bottom: 16px; }
+    .hero .lead { font-size: 16px; margin-bottom: 24px; }
+    .hero .cta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .hero .cta .btn { justify-content: center; min-height: 44px; padding: 10px 8px; }
+    .hero .cta .btn-brand { grid-column: 1 / -1; }
+    .stats { margin-top: 32px; gap: 8px; }
+    .stat { padding-left: 12px; }
+    .stat b { font-size: 20px; }
+    .stat .small { font-size: 12px; display: block; }
 
-  footer { border-top: 1px solid var(--line); padding: 44px 0 64px; }
-  footer h2 { margin-bottom: 12px; }
-  footer p { color: var(--muted); margin: 0 0 20px; max-width: 520px; }
-  .fine { margin-top: 40px; font-size: 13px; color: var(--faint); }
+    .section-head { margin-bottom: 24px; }
+    .section-head p { font-size: 14px; line-height: 1.5; }
+    .grid-3, .grid-2 { gap: 16px; }
+    .card { padding: 16px; }
+    .card-top { flex-direction: column; gap: 6px; }
+    .card .meta { margin-bottom: 12px; }
+    .card ul { padding-left: 18px; }
 
-  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
-  .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
-
-  @media (max-width: 640px) {
-    .wrap { padding: 0 16px; }
-    nav .links a.hide-sm { display: none; }
-    header.hero { padding: 44px 0 40px; }
-    .hero-top { flex-direction: column; align-items: flex-start; gap: 18px; }
-    .avatar { width: 88px; height: 88px; }
-    h1 { font-size: 34px; }
-    .intro { font-size: 17px; }
-    .job, .skills-row { grid-template-columns: 1fr; gap: 4px; }
-    .when { padding-top: 0; }
-    .card { padding: 18px; }
+    .contact { gap: 24px; }
+    .contact .lead { font-size: 16px; }
+    .contact .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .contact .cta .btn { justify-content: center; min-height: 44px; }
+    .contact .cta .btn-brand { grid-column: 1 / -1; }
+    footer .container { justify-content: center; }
   }
 </style>
 </head>
 <body>
 
-<nav id="nav">
-  <div class="wrap">
-    <a href="#" class="logo">Akash Sathish</a>
-    <div class="links">
-      <a href="#experience" class="hide-sm">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact" class="hide-sm">Contact</a>
-      <button class="theme-btn" id="theme" aria-label="Toggle dark mode">
-        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      </button>
+<nav class="nav" aria-label="Main">
+  <div class="container">
+    <a href="#" class="nav-name"><img src="/assets/akash.jpg" alt="" width="32" height="32">Akash Sathish</a>
+    <div class="nav-links">
+      <a class="btn btn-ghost hide-sm" href="#experience">Experience</a>
+      <a class="btn btn-ghost" href="#projects">Projects</a>
+      <a class="btn btn-ghost hide-sm" href="#about">About</a>
+      <a class="btn btn-ghost" href="#contact">Contact</a>
     </div>
   </div>
 </nav>
 
-<main class="wrap">
-  <header class="hero">
-    <div class="hero-top">
-      <img class="avatar" src="/assets/akash.jpg" alt="Akash Sathish" width="112" height="112">
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
       <div>
-        <div class="status"><span class="dot"></span>UNC Chapel Hill · Class of 2028</div>
-        <h1>Akash Sathish</h1>
-        <p class="tagline">AI engineer · CS + Data Science @ UNC</p>
+        <span class="badge badge-lg badge-success in d1"><span class="dot"></span>UNC Chapel Hill, Class of 2028</span>
+        <h1 class="in d2">Hi, I'm Akash. I build AI systems and ship them to real users.</h1>
+        <p class="lead in d3">
+          CS and Data Science at UNC with a minor in AI. Most recently an <strong>AI Engineer at Snapback Sports</strong>,
+          building LLM pipelines and apps for 100K+ users. I'm also building <strong>Arceo</strong>, a security platform
+          for AI agents, and <strong>MailSentry</strong>, a macOS app that lets AI assistants read your mail safely.
+        </p>
+        <div class="cta in d4">
+          <a class="btn btn-brand btn-lg" href="mailto:akash8@unc.edu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            Email me
+          </a>
+          <a class="btn btn-tertiary btn-lg" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+            Resume
+          </a>
+          <a class="btn btn-tertiary btn-lg" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn btn-tertiary btn-lg" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            GitHub
+          </a>
+        </div>
+        <div class="stats in d5">
+          <div class="stat"><b>100K+</b><span class="small">downloads on apps I shipped</span></div>
+          <div class="stat"><b>98%+</b><span class="small">LLM eval accuracy</span></div>
+          <div class="stat"><b>3.8</b><span class="small">GPA, CS + Data Science</span></div>
+        </div>
       </div>
-    </div>
-    <p class="intro">
-      I build AI systems and ship them to real users. Most recently I was an <strong>AI Engineer at Snapback Sports</strong>,
-      building LLM pipelines and apps for 100K+ users. On the side I'm building <strong>Arceo</strong>, a security
-      platform for AI agents, and <strong>MailSentry</strong>, a macOS app on the App Store that lets AI assistants read your mail safely.
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="mailto:akash8@unc.edu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-        Email me
-      </a>
-      <a class="btn" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
-        Resume
-      </a>
-      <a class="btn" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-      <a class="btn" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
-        GitHub
-      </a>
-    </div>
-  </header>
-
-  <section id="experience" class="reveal">
-    <h2>Experience</h2>
-
-    <div class="job">
-      <div class="when mono">Jun – Sep 2026</div>
-      <div>
-        <h3>Snapback Sports</h3>
-        <div class="role">AI Engineer · New York City</div>
-        <ul>
-          <li>Built an LLM trivia pipeline with schema validation and prompt caching; an <b>800+ question</b> eval set held <b>98%+ accuracy</b></li>
-          <li>Prevented hallucinated trivia with <b>RAG</b> over sourced sports data and an <b>LLM-as-judge</b> verifier before publish</li>
-          <li>Shipped features and game modes in the Snapback Trivia app (<b>100K+ downloads</b>, React Native)</li>
-          <li>Shipped Snapback Experiences, a gameday planning web platform that sustained <b>1,000+ concurrent users</b></li>
-          <li>Engineered an offline-first iOS app with multi-device sync and session auth; shipped to TestFlight</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="when mono">Jan – May 2026</div>
-      <div>
-        <h3>Intelitrade</h3>
-        <div class="role">Software Engineer · Chapel Hill</div>
-        <ul>
-          <li>Developed LLM sentiment analysis (OpenAI API, LangChain) validated against human ratings on <b>400+ articles</b></li>
-          <li>Built an internal AI agent for dev workflow with tool-scoped actions and human approval gates; adopted team-wide</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="when mono">Dec 2025 – Jan 2026</div>
-      <div>
-        <h3>UNC Klotsa Group</h3>
-        <div class="role">Research Software Developer · Chapel Hill</div>
-        <ul>
-          <li>Built a faculty profile system (Next.js, PostgreSQL) for <b>40+ faculty</b>, replacing a manual spreadsheet</li>
-          <li>Synced profile edits to the matching engine in real time so <b>90+</b> clinician/faculty pairs matched instantly</li>
-        </ul>
+      <div class="portrait in d3">
+        <img src="/assets/akash.jpg" alt="Portrait of Akash Sathish" width="360" height="360">
       </div>
     </div>
   </section>
 
-  <section id="projects" class="reveal">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="card">
-        <div class="card-head">
-          <h3>MailSentry</h3>
-          <span class="badge">On the Mac App Store</span>
-        </div>
-        <p>A macOS MailKit extension that gives AI assistants a read-only, scrubbed mirror of your mail instead of your real account. Hidden-text detectors, a MIME sanitizer, and an MCP server that gates agent actions behind your approval. Fully on-device.</p>
-        <div class="tags"><span class="tag">Swift</span><span class="tag">MailKit</span><span class="tag">MCP</span><span class="tag">IMAP</span><span class="tag">315+ tests</span></div>
+  <section id="experience" class="alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Experience</h2>
+        <p>Shipping AI features in production, from LLM pipelines to the apps people use them in.</p>
       </div>
-      <div class="card">
-        <div class="card-head">
-          <h3>Arceo</h3>
-          <span class="kind mono">AI agent security</span>
-        </div>
-        <p>Predicts what an AI agent will cost and how much damage it could do before it ships. Its cost forecaster lands within 7% of actual LLM spend, and its risk scorer found a chain in OpenAI's customer-service demo that could issue refunds without approval. Runs as a GitHub Action on every PR.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">TypeScript</span><span class="tag">GitHub Actions</span></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h3>BackBuddy</h3>
-          <span class="kind mono">Trading assistant</span>
-        </div>
-        <p>A live sports-trading assistant on Kalshi's API: automated execution, real-time P&amp;L tracking, and cashout warnings tied to game state across multiple NCAA games at once.</p>
-        <div class="tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Kalshi API</span></div>
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-top"><h3>Snapback Sports</h3><span class="badge badge-gray">Jun – Sep 2026</span></div>
+          <p class="small meta">AI Engineer, New York City</p>
+          <ul>
+            <li>LLM trivia pipeline with schema validation and prompt caching; an <strong>800+ question</strong> eval set held <strong>98%+ accuracy</strong></li>
+            <li>Blocked hallucinated trivia with <strong>RAG</strong> over sourced sports data and an <strong>LLM-as-judge</strong> verifier</li>
+            <li>Shipped features and game modes in Snapback Trivia (<strong>100K+ downloads</strong>, React Native)</li>
+            <li>Shipped Snapback Experiences, a gameday planner that held <strong>1,000+ concurrent users</strong></li>
+            <li>Offline-first iOS app with multi-device sync and session auth, shipped to TestFlight</li>
+          </ul>
+          <div class="badges"><span class="badge badge-gray">LLMs</span><span class="badge badge-gray">RAG</span><span class="badge badge-gray">React Native</span><span class="badge badge-gray">Swift</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>Intelitrade</h3><span class="badge badge-gray">Jan – May 2026</span></div>
+          <p class="small meta">Software Engineer, Chapel Hill</p>
+          <ul>
+            <li>LLM sentiment analysis (OpenAI API, LangChain) validated against human ratings on <strong>400+ articles</strong></li>
+            <li>Internal AI agent for dev workflow with tool-scoped actions and human approval gates, adopted team-wide</li>
+          </ul>
+          <div class="badges"><span class="badge badge-gray">OpenAI API</span><span class="badge badge-gray">LangChain</span><span class="badge badge-gray">Agents</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>UNC Klotsa Group</h3><span class="badge badge-gray">Dec 2025 – Jan 2026</span></div>
+          <p class="small meta">Research Software Developer, Chapel Hill</p>
+          <ul>
+            <li>Faculty profile system (Next.js, PostgreSQL) for <strong>40+ faculty</strong>, replacing a manual spreadsheet</li>
+            <li>Real-time sync to the matching engine so <strong>90+</strong> clinician and faculty pairs matched instantly</li>
+          </ul>
+          <div class="badges"><span class="badge badge-gray">Next.js</span><span class="badge badge-gray">PostgreSQL</span></div>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="education" class="reveal edu">
-    <h2>Education</h2>
-    <div class="job">
-      <div class="when mono">Class of 2028</div>
+  <section id="projects">
+    <div class="container">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <p>Things I've built on my own, mostly about making AI agents safe to trust.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-top"><h3>MailSentry</h3><span class="badge badge-success">Mac App Store</span></div>
+          <p class="small meta">macOS MailKit extension</p>
+          <p class="small">Gives AI assistants a read-only, scrubbed mirror of your mail instead of your real account. Hidden-text detectors, a MIME sanitizer, and an MCP server that gates every agent action behind your approval. Fully on-device.</p>
+          <div class="badges"><span class="badge badge-gray">Swift</span><span class="badge badge-gray">MailKit</span><span class="badge badge-gray">MCP</span><span class="badge badge-gray">315+ tests</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>Arceo</h3><span class="badge badge-brand">In progress</span></div>
+          <p class="small meta">AI agent security platform</p>
+          <p class="small">Predicts what an agent will cost and how much damage it could do before it ships. The cost forecaster lands within 7% of actual spend, and the risk scorer found a chain in OpenAI's customer service demo that could refund without approval. Runs as a GitHub Action on every PR.</p>
+          <div class="badges"><span class="badge badge-gray">Python</span><span class="badge badge-gray">FastAPI</span><span class="badge badge-gray">TypeScript</span><span class="badge badge-gray">GitHub Actions</span></div>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3>BackBuddy</h3><span class="badge badge-brand">Mar 2026</span></div>
+          <p class="small meta">Sports trading assistant</p>
+          <p class="small">A live trading assistant on Kalshi's API: automated execution, real-time P&amp;L tracking, and cashout warnings tied to game state across multiple NCAA games at once.</p>
+          <div class="badges"><span class="badge badge-gray">FastAPI</span><span class="badge badge-gray">React</span><span class="badge badge-gray">Kalshi API</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="alt">
+    <div class="container">
+      <div class="section-head"><h2>About</h2></div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>University of North Carolina at Chapel Hill</h3>
+          <p class="small meta">B.S. Computer Science, B.S. Data Science, Minor in AI. GPA 3.8, graduating May 2028.</p>
+          <p class="label">Honors</p>
+          <div class="badges" style="margin-top:8px">
+            <span class="badge badge-lg badge-brand">Dean's List</span>
+            <span class="badge badge-lg badge-brand">Fidelity Hack Winner</span>
+            <span class="badge badge-lg badge-brand">Anthropic MCP: Advanced</span>
+            <span class="badge badge-lg badge-brand">Eagle Scout</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Skills</h3>
+          <p class="small meta">What I reach for most, in rough order.</p>
+          <div class="skill-row">
+            <p class="label">Languages</p>
+            <div class="badges"><span class="badge badge-gray">Python</span><span class="badge badge-gray">Swift / SwiftUI</span><span class="badge badge-gray">TypeScript</span><span class="badge badge-gray">JavaScript</span><span class="badge badge-gray">Java</span><span class="badge badge-gray">SQL</span><span class="badge badge-gray">C</span></div>
+          </div>
+          <div class="skill-row">
+            <p class="label">AI</p>
+            <div class="badges"><span class="badge badge-gray">LLM pipelines</span><span class="badge badge-gray">RAG</span><span class="badge badge-gray">Evals</span><span class="badge badge-gray">MCP</span><span class="badge badge-gray">Agents</span><span class="badge badge-gray">Claude Code</span></div>
+          </div>
+          <div class="skill-row">
+            <p class="label">Tools</p>
+            <div class="badges"><span class="badge badge-gray">FastAPI</span><span class="badge badge-gray">PostgreSQL</span><span class="badge badge-gray">Next.js</span><span class="badge badge-gray">React Native</span><span class="badge badge-gray">Cloudflare Workers</span><span class="badge badge-gray">Xcode</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container contact">
       <div>
-        <h3>University of North Carolina at Chapel Hill</h3>
-        <div class="role">B.S. Computer Science · B.S. Data Science · Minor in AI · GPA 3.8</div>
-        <div class="honors">
-          <span class="badge">Dean's List</span>
-          <span class="badge">Fidelity Hack Winner</span>
-          <span class="badge">Anthropic MCP: Advanced</span>
-          <span class="badge">Eagle Scout</span>
-        </div>
+        <h2>Let's talk</h2>
+        <p class="lead" style="margin-top:12px">Looking for internships and interesting problems in AI engineering. Email is the fastest way to reach me.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="skills" class="reveal">
-    <h2>Skills</h2>
-    <div class="skills">
-      <div class="skills-row">
-        <div class="label mono">Languages</div>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Swift / SwiftUI</span><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">Java</span><span class="tag">SQL</span><span class="tag">C</span></div>
-      </div>
-      <div class="skills-row">
-        <div class="label mono">AI</div>
-        <div class="tags"><span class="tag">LLM pipelines</span><span class="tag">RAG</span><span class="tag">Evals</span><span class="tag">MCP</span><span class="tag">Agents</span><span class="tag">Claude Code</span></div>
-      </div>
-      <div class="skills-row">
-        <div class="label mono">Tools</div>
-        <div class="tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Next.js</span><span class="tag">React Native</span><span class="tag">Cloudflare Workers</span><span class="tag">Xcode</span></div>
+      <div class="cta">
+        <a class="btn btn-brand btn-lg" href="mailto:akash8@unc.edu">akash8@unc.edu</a>
+        <a class="btn btn-tertiary btn-lg" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-tertiary btn-lg" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </section>
 </main>
 
-<footer id="contact">
-  <div class="wrap reveal">
-    <h2>Contact</h2>
-    <p>Looking for internships and interesting problems in AI engineering. The fastest way to reach me is email.</p>
-    <div class="cta">
-      <a class="btn primary" href="mailto:akash8@unc.edu">akash8@unc.edu</a>
-      <a class="btn" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">GitHub</a>
-    </div>
-    <div class="fine mono">© <span id="yr">2026</span> Akash Sathish · Chapel Hill, NC</div>
+<footer>
+  <div class="container small">
+    <span>© <span id="yr">2026</span> Akash Sathish</span>
+    <span>Chapel Hill, NC</span>
   </div>
 </footer>
 
-<script>
-  const root = document.documentElement;
-  document.getElementById('theme').addEventListener('click', () => {
-    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-    root.dataset.theme = dark ? 'light' : 'dark';
-    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-  });
-  const nav = document.getElementById('nav');
-  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>
