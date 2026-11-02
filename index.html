@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#FFFFFF">
 <title>Akash Sathish</title>
-<meta name="description" content="Akash Sathish studies Computer Science and Data Science at UNC Chapel Hill. Experience in AI engineering, LLM systems, and iOS and macOS development.">
+<meta name="description" content="Akash Sathish studies Computer Science and Data Science at UNC Chapel Hill. Incoming Software at Fidelity Investments, previously AI Engineer at Snapback Sports.">
 <meta property="og:title" content="Akash Sathish">
-<meta property="og:description" content="Computer Science and Data Science at UNC Chapel Hill. AI engineering, LLM systems, iOS and macOS.">
+<meta property="og:description" content="Computer Science and Data Science at UNC Chapel Hill. Incoming Software at Fidelity Investments.">
 <meta property="og:image" content="https://akashsathish.com/assets/og.jpg">
 <meta property="og:url" content="https://akashsathish.com">
 <meta property="og:type" content="profile">
@@ -29,16 +30,13 @@
     --neutral-secondary-strong: #F4F4F5;
     --neutral-tertiary-soft: #F4F4F5;
     --neutral-tertiary: #F4F4F5;
-    --neutral-tertiary-medium: #E4E4E7;
     --brand-softer: #F5F5F5;
-    --brand-soft: #E5E5E5;
     --brand: #2E2E2E;
     --brand-medium: #D4D4D4;
     --brand-strong: #1A1A1A;
     --success-soft: #F0FDF4;
     --border-success-subtle: #BBF7D0;
     --fg-success-strong: #15803D;
-    --dark: #18181B;
     --white: #FFFFFF;
     --heading: #09090B;
     --body: #71717A;
@@ -46,25 +44,26 @@
     --fg-brand: #2E2E2E;
     --fg-brand-strong: #1A1A1A;
     --border-default: #E4E4E7;
-    --border-default-medium: #E4E4E7;
     --border-default-strong: #D4D4D8;
     --border-brand-subtle: #D4D4D4;
-    --border-brand: #2E2E2E;
     --color-1-400: rgba(255,255,255,0.06);
     --color-1-700: rgba(0,0,0,0.04);
     --shadow-2xs: 0 1px rgb(0 0 0 / 0.05);
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
-    --radius-sm: 4px;
     --radius-default: 6px;
     --radius-base: 8px;
     --radius-full: 9999px;
     --glint: var(--shadow-2xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px;
+    /* Motion */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; -webkit-tap-highlight-color: transparent; }
   body {
     margin: 0; background: var(--neutral-primary-soft); color: var(--body);
     font: 16px/1.625 Inter, sans-serif; -webkit-font-smoothing: antialiased;
@@ -72,6 +71,8 @@
   svg { flex-shrink: 0; }
   a { color: var(--fg-brand); text-decoration: underline; text-underline-offset: 2px; }
   a:hover { text-decoration: none; }
+  button, a, [role="button"] { touch-action: manipulation; }
+  button { -webkit-user-select: none; user-select: none; }
 
   /* Typography (mobile first) */
   h1, h2, h3 { color: var(--heading); font-weight: 600; margin: 0; }
@@ -89,17 +90,22 @@
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     font: 500 14px/1.25rem Inter, sans-serif; padding: 8px 16px; border-radius: var(--radius-base);
     border: 1px solid transparent; text-decoration: none; cursor: pointer; white-space: nowrap;
-    box-shadow: var(--glint); transition: color .15s, background-color .15s;
+    box-shadow: var(--glint);
+    transition: transform 160ms var(--ease-out), background-color 150ms ease, color 150ms ease;
   }
+  .btn:active { transform: scale(0.97); }
   .btn svg { width: 16px; height: 16px; }
   .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--neutral-tertiary); }
   .btn-brand { background: var(--brand); color: var(--white); }
-  .btn-brand:hover { background: var(--brand-strong); }
   .btn-brand:focus-visible { box-shadow: 0 0 0 3px var(--brand-medium); }
   .btn-tertiary { background: var(--neutral-primary-soft); border-color: var(--border-default); color: var(--body); }
-  .btn-tertiary:hover { background: var(--neutral-secondary-medium); color: var(--heading); }
   .btn-ghost { background: transparent; color: var(--heading); box-shadow: none; padding: 8px; }
-  .btn-ghost:hover { background: var(--neutral-secondary-medium); }
+  .btn-sm { padding: 6px 12px; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-brand:hover { background: var(--brand-strong); }
+    .btn-tertiary:hover { background: var(--neutral-secondary-medium); color: var(--heading); }
+    .btn-ghost:hover { background: var(--neutral-secondary-medium); }
+  }
 
   /* Button group */
   .btn-group { display: inline-flex; border-radius: var(--radius-base); box-shadow: var(--shadow-2xs); }
@@ -118,14 +124,14 @@
   .badge-brand { background: var(--brand-softer); border-color: var(--border-brand-subtle); color: var(--fg-brand-strong); }
   .badge-success { background: var(--success-soft); border-color: var(--border-success-subtle); color: var(--fg-success-strong); }
 
-  /* Shell: sidebar + main */
+  /* Shell: fixed sidebar + centered main column */
   .sidebar {
     position: fixed; inset: 0 auto 0 0; width: 256px; z-index: 30;
     background: var(--neutral-primary-soft); border-right: 1px solid var(--border-default);
-    transform: translateX(-100%); transition: transform .2s ease;
+    transform: translateX(-100%); transition: transform 400ms var(--ease-drawer);
   }
-  .sidebar.open { transform: none; box-shadow: var(--shadow-lg); }
-  .sidebar-inner { height: 100%; overflow-y: auto; padding: 16px 12px; display: flex; flex-direction: column; }
+  .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  .sidebar-inner { height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 16px 12px; display: flex; flex-direction: column; }
   .profile { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; text-decoration: none; }
   .profile img { width: 40px; height: 40px; border-radius: var(--radius-full); object-fit: cover; }
   .profile b { display: block; color: var(--heading); font-weight: 500; font-size: 14px; line-height: 1.4; }
@@ -133,22 +139,25 @@
   .nav-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
   .nav-item {
     display: flex; align-items: center; padding: 6px 8px; border-radius: var(--radius-default);
-    color: var(--heading); font-size: 14px; font-weight: 500; text-decoration: none; transition: background-color .15s;
+    color: var(--heading); font-size: 14px; font-weight: 500; text-decoration: none; transition: background-color 150ms ease;
   }
-  .nav-item svg { width: 16px; height: 16px; color: var(--body); margin-right: 8px; transition: color 75ms; }
-  .nav-item:hover { background: var(--neutral-secondary-medium); }
-  .nav-item:hover svg { color: var(--heading); }
+  .nav-item svg { width: 16px; height: 16px; color: var(--body); margin-right: 8px; transition: color 75ms ease; }
   .nav-item.active { background: var(--neutral-secondary-strong); color: var(--fg-brand-strong); }
   .nav-item.active svg { color: var(--fg-brand-strong); }
   .nav-item .ext { margin: 0 0 0 auto; width: 12px; height: 12px; color: var(--body-subtle); }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-item:hover { background: var(--neutral-secondary-medium); }
+    .nav-item:hover svg { color: var(--heading); }
+  }
   .nav-sep { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-default); }
   .nav-sep .label { font-size: 12px; font-weight: 500; color: var(--body-subtle); padding: 0 8px 8px; }
   .sidebar-foot { margin-top: auto; padding: 24px 8px 0; font-size: 12px; color: var(--body-subtle); }
-  .scrim { position: fixed; inset: 0; z-index: 25; background: rgb(9 9 11 / 0.4); opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .scrim { position: fixed; inset: 0; z-index: 25; background: rgb(9 9 11 / 0.4); opacity: 0; pointer-events: none; transition: opacity 400ms var(--ease-drawer); }
   .scrim.open { opacity: 1; pointer-events: auto; }
 
   .topbar {
-    position: sticky; top: 0; z-index: 20; height: 56px; padding: 0 16px;
+    position: sticky; top: 0; z-index: 20; height: calc(56px + env(safe-area-inset-top, 0px));
+    padding: env(safe-area-inset-top, 0px) 16px 0;
     display: flex; align-items: center; justify-content: space-between;
     background: var(--neutral-primary-soft); border-bottom: 1px solid var(--border-default);
   }
@@ -158,10 +167,10 @@
   .topbar .btn-ghost svg { width: 20px; height: 20px; }
 
   main { min-width: 0; }
-  .page { padding: 0 16px; }
+  .page { padding: 0 16px; margin: 0 auto; max-width: 960px; }
   .page > section { padding: 32px 0; border-bottom: 1px solid var(--border-default); }
   .page > section:last-of-type { border-bottom: 0; padding-bottom: 64px; }
-  .section-head { margin-bottom: 24px; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
 
   @media (min-width: 768px) {
     .page { padding: 0 32px; }
@@ -173,7 +182,7 @@
     .sidebar.open { box-shadow: none; }
     .topbar, .scrim { display: none; }
     main { margin-left: 256px; }
-    .page { padding: 0 48px; max-width: 1280px; }
+    .page { padding: 0 48px; }
     .page > section { padding: 64px 0; }
   }
 
@@ -186,46 +195,83 @@
   .portrait img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-default); }
   .overview h1 { margin-bottom: 12px; }
   .overview .role { color: var(--heading); font-weight: 500; margin-bottom: 24px; }
-  .overview .lead + .lead { margin-top: 16px; }
   .overview .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .facts { margin: 32px 0 0; display: grid; gap: 12px; list-style: none; padding: 0; }
   .facts li { display: flex; align-items: center; font-size: 14px; line-height: 1.5; }
   .facts svg { width: 16px; height: 16px; margin-right: 6px; color: var(--body); }
   @media (min-width: 768px) { .facts { grid-template-columns: repeat(3, max-content); column-gap: 32px; } }
   @media (min-width: 1024px) {
-    .overview { grid-template-columns: 1fr 280px; gap: 64px; align-items: start; }
-    .portrait { width: 280px; order: 2; }
+    .overview { grid-template-columns: 1fr 240px; gap: 48px; align-items: start; }
+    .portrait { width: 240px; order: 2; }
   }
 
-  /* Experience entries */
-  .entries { display: grid; gap: 24px; }
-  .entry {
+  /* First-visit entrance: rare, so a short stagger is allowed */
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .enter { animation: rise 300ms var(--ease-out) both; }
+  .enter-1 { animation-delay: 0ms; } .enter-2 { animation-delay: 50ms; } .enter-3 { animation-delay: 100ms; }
+  .enter-4 { animation-delay: 150ms; } .enter-5 { animation-delay: 200ms; }
+
+  /* Expandable items (experience, projects, activities) */
+  .items { display: grid; gap: 12px; }
+  .item {
     background: var(--neutral-primary-soft); border: 1px solid var(--border-default);
-    border-radius: var(--radius-base); box-shadow: var(--shadow-sm); padding: 24px;
+    border-radius: var(--radius-base); box-shadow: var(--shadow-sm); overflow: hidden;
+    transition: box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out);
   }
-  .entry-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; }
-  .entry-sub { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; margin: 2px 0 16px; font-size: 14px; line-height: 1.5; }
-  .entry-sub .where { color: var(--body-subtle); }
-  .entry .dates { font-size: 14px; color: var(--body); font-variant-numeric: tabular-nums; }
-  .entry ul { margin: 0; padding-left: 24px; font-size: 14px; line-height: 1.5; display: grid; gap: 8px; }
-  .entry li::marker { color: var(--body-subtle); }
-  .entry .badges { margin-top: 16px; }
+  .item.open { box-shadow: var(--shadow-md); border-color: var(--border-default-strong); }
+  .item-trigger {
+    width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: start; text-align: left;
+    padding: 16px 20px; border: 0; background: transparent; cursor: pointer; font: inherit; color: inherit;
+    transition: background-color 150ms ease;
+  }
+  .item-trigger:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--brand); border-radius: var(--radius-base); }
+  @media (hover: hover) and (pointer: fine) {
+    .item-trigger:hover { background: var(--neutral-secondary-soft); }
+  }
+  .item-title { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--heading); font-size: 16px; font-weight: 500; line-height: 1.4; }
+  .item-sub { display: block; font-size: 14px; line-height: 1.5; margin-top: 2px; }
+  .item-summary { display: block; font-size: 14px; line-height: 1.5; margin-top: 8px; color: var(--body); }
+  .item-side { display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 1.5; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .chev {
+    width: 28px; height: 28px; display: grid; place-items: center; border-radius: var(--radius-default);
+    border: 1px solid var(--border-default); background: var(--neutral-primary-soft); color: var(--body);
+    transition: transform 200ms var(--ease-in-out);
+  }
+  .chev svg { width: 16px; height: 16px; }
+  .item.open .chev { transform: rotate(180deg); }
 
-  /* Projects */
-  .project { display: grid; gap: 24px; }
-  .project-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 8px; }
-  .project .summary { max-width: 70ch; }
-  .checklist { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
-  .entry .checklist { padding-left: 0; margin-top: 16px; gap: 12px; }
+  /* Height reveal via grid rows; content fades and settles just behind it */
+  .collapse { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 200ms var(--ease-out); }
+  .item.open .collapse { grid-template-rows: 1fr; transition-duration: 250ms; }
+  .collapse-inner { overflow: hidden; min-height: 0; }
+  .collapse-body {
+    padding: 0 20px 20px;
+    opacity: 0; transform: translateY(-4px);
+    transition: opacity 150ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+  .item.open .collapse-body { opacity: 1; transform: translateY(0); transition-duration: 250ms; transition-delay: 50ms; }
+  .collapse-body > * + * { margin-top: 16px; }
+
+  .bullets { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.5; display: grid; gap: 8px; }
+  .bullets li::marker { color: var(--body-subtle); }
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
   .checklist li { display: flex; align-items: flex-start; font-size: 14px; line-height: 1.5; }
   .checklist svg { width: 16px; height: 16px; margin: 2px 6px 0 0; color: var(--fg-brand); }
-  .project aside {
-    background: var(--neutral-secondary-soft); border: 1px solid var(--border-default); border-radius: var(--radius-base); padding: 16px;
+  .bullets li, .checklist li { opacity: 0; transform: translateY(4px); transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out); }
+  .item.open .bullets li, .item.open .checklist li { opacity: 1; transform: translateY(0); transition-duration: 250ms; }
+  .item.open li:nth-child(1) { transition-delay: 60ms; }
+  .item.open li:nth-child(2) { transition-delay: 100ms; }
+  .item.open li:nth-child(3) { transition-delay: 140ms; }
+  .item.open li:nth-child(4) { transition-delay: 180ms; }
+  .item.open li:nth-child(5) { transition-delay: 220ms; }
+
+  .facts-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px 24px; margin: 16px 0 0;
+    padding: 12px 16px; background: var(--neutral-secondary-soft); border: 1px solid var(--border-default); border-radius: var(--radius-base);
+    font-size: 14px; line-height: 1.5;
   }
-  .project aside dl { margin: 0; display: grid; gap: 12px; font-size: 14px; line-height: 1.5; }
-  .project aside dt { color: var(--body-subtle); font-size: 12px; font-weight: 500; }
-  .project aside dd { margin: 2px 0 0; color: var(--heading); }
-  @media (min-width: 1024px) { .project { grid-template-columns: 1fr 300px; gap: 48px; } }
+  .facts-grid dt { color: var(--body-subtle); font-size: 12px; font-weight: 500; }
+  .facts-grid dd { margin: 2px 0 0; color: var(--heading); }
 
   /* Tables */
   .table-wrap {
@@ -241,22 +287,6 @@
   .edu-title { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; margin-bottom: 16px; }
   .subhead { margin: 48px 0 16px; }
 
-  /* Accordion (separated cards) */
-  .accordion { display: grid; gap: 8px; }
-  .acc-item { border: 1px solid var(--border-default); border-radius: var(--radius-base); box-shadow: var(--shadow-sm); overflow: hidden; }
-  .acc-trigger {
-    width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; text-align: left;
-    padding: 12px 16px; border: 0; cursor: pointer; background: var(--neutral-secondary-soft);
-    font: 500 14px/1.5 Inter, sans-serif; color: var(--heading); transition: background-color .15s;
-  }
-  .acc-trigger:hover, .acc-trigger[aria-expanded="true"] { background: var(--neutral-tertiary-soft); }
-  .acc-trigger:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--brand); }
-  .acc-trigger .meta { color: var(--body); font-weight: 400; margin-left: auto; white-space: nowrap; }
-  .acc-trigger svg { width: 16px; height: 16px; color: var(--body); transition: transform .15s; }
-  .acc-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
-  .acc-panel { padding: 12px 16px; border-top: 1px solid var(--border-default); background: var(--neutral-primary-soft); font-size: 14px; line-height: 1.5; }
-  .acc-panel[hidden] { display: none; }
-
   /* Contact */
   .contact-card {
     display: grid; gap: 24px; align-items: center; padding: 24px; border-radius: var(--radius-base);
@@ -264,6 +294,8 @@
   }
   .contact-card .actions { display: flex; flex-wrap: wrap; gap: 12px; }
   @media (min-width: 1024px) { .contact-card { grid-template-columns: 1fr auto; padding: 32px; } }
+
+  .item-dates-sm { display: none; font-size: 12px; line-height: 1.5; color: var(--body-subtle); margin-top: 2px; font-variant-numeric: tabular-nums; }
 
   /* Mobile layout */
   @media (max-width: 767px) {
@@ -276,19 +308,28 @@
     .btn-group { display: flex; width: 100%; }
     .btn-group .btn { flex: 1; min-height: 44px; padding: 8px 6px; }
     .facts { margin-top: 24px; }
-    .entry { padding: 16px; }
-    .entry-sub { flex-direction: column; gap: 0; margin-bottom: 12px; }
-    .entry ul { padding-left: 18px; }
-    .acc-trigger { min-height: 48px; }
-    .acc-trigger .meta { display: none; }
+    .item-trigger { padding: 14px 16px; min-height: 56px; }
+    .item-side .when { display: none; }
+    .item-dates-sm { display: block; }
+    .collapse-body { padding: 0 16px 16px; }
+    .bullets { padding-left: 18px; }
     tbody th[scope="row"] { white-space: normal; width: 34%; }
     th, td { padding: 12px; }
     .subhead { margin-top: 32px; }
     .contact-card { padding: 16px; }
     .contact-card .actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
     .contact-card .btn { min-height: 44px; }
-    }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .sidebar, .scrim { transition: none; } }
+  }
+
+  /* Reduced motion: keep fades, drop movement */
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .enter { animation: fade 200ms ease both; }
+    .sidebar, .collapse, .chev { transition: none; }
+    .btn:active { transform: none; }
+    .collapse-body, .bullets li, .checklist li { transform: none !important; transition-property: opacity; transition-delay: 0ms !important; }
+  }
 </style>
 </head>
 <body>
@@ -352,12 +393,12 @@
   <div class="page">
     <section id="overview">
       <div class="overview">
-        <div class="portrait"><img src="/assets/portrait-2026.jpg" alt="Portrait of Akash Sathish" width="280" height="280"></div>
+        <div class="portrait enter enter-2"><img src="/assets/portrait-2026.jpg" alt="Portrait of Akash Sathish" width="240" height="240"></div>
         <div>
-          <h1>Akash Sathish</h1>
-          <p class="role">Computer Science and Data Science, University of North Carolina at Chapel Hill</p>
-          <p class="lead">Computer Science and Data Science at UNC, minor in Artificial Intelligence.<br>Incoming Software @ Fidelity Investments. Previous AI Engineer at Snapback Sports.</p>
-          <div class="actions">
+          <h1 class="enter enter-1">Akash Sathish</h1>
+          <p class="role enter enter-2">Computer Science and Data Science, University of North Carolina at Chapel Hill</p>
+          <p class="lead enter enter-3">Computer Science and Data Science at UNC, minor in Artificial Intelligence.<br>Incoming Software @ Fidelity Investments. Previous AI Engineer at Snapback Sports.</p>
+          <div class="actions enter enter-4">
             <a class="btn btn-brand" href="mailto:akash8@unc.edu"><svg><use href="#i-mail"/></svg>Email</a>
             <div class="btn-group" role="group" aria-label="Profiles">
               <a class="btn btn-tertiary" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener"><svg><use href="#i-file"/></svg>Resume</a>
@@ -365,7 +406,7 @@
               <a class="btn btn-tertiary" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
             </div>
           </div>
-          <ul class="facts">
+          <ul class="facts enter enter-5">
             <li><svg><use href="#i-pin"/></svg>Chapel Hill, NC</li>
             <li><svg><use href="#i-cal"/></svg>Graduating May 2028</li>
             <li><svg><use href="#i-mail"/></svg><a href="mailto:akash8@unc.edu">akash8@unc.edu</a></li>
@@ -375,108 +416,141 @@
     </section>
 
     <section id="experience">
-      <div class="section-head"><h2>Experience</h2></div>
-      <div class="entries">
-        <article class="entry">
-          <div class="entry-head"><h3>Snapback Sports</h3><span class="dates">Jun 2026 – Sep 2026</span></div>
-          <div class="entry-sub"><span>AI Engineer</span><span class="where">New York, NY</span></div>
-          <ul>
-            <li>Built the LLM pipeline that generates trivia questions, with schema validation and prompt caching. Accuracy held above 98% on an 800+ question evaluation set.</li>
-            <li>Reduced incorrect questions by grounding generation in sourced sports data (RAG) and adding an LLM-as-judge review step before anything was published.</li>
-            <li>Shipped new features and game modes in the Snapback Trivia app (100K+ downloads) using React Native.</li>
-            <li>Shipped Snapback Experiences, a gameday planning web platform that handled more than 1,000 concurrent users.</li>
-            <li>Built an offline-first iOS app with multi-device sync and session authentication, released to TestFlight for internal beta.</li>
-          </ul>
-          <div class="badges"><span class="badge badge-gray">Python</span><span class="badge badge-gray">LLMs</span><span class="badge badge-gray">RAG</span><span class="badge badge-gray">React Native</span><span class="badge badge-gray">Swift</span></div>
+      <div class="section-head">
+        <h2>Experience</h2>
+        <button class="btn btn-tertiary btn-sm toggle-all">Expand all</button>
+      </div>
+      <div class="items">
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="x-snapback">
+            <span>
+              <span class="item-title">Snapback Sports</span>
+              <span class="item-sub">AI Engineer, New York, NY</span>
+              <span class="item-dates-sm">Jun 2026 – Sep 2026</span>
+              <span class="item-summary">Built the LLM pipeline behind Snapback Trivia, an app with 100K+ downloads.</span>
+            </span>
+            <span class="item-side"><span class="when">Jun 2026 – Sep 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="x-snapback" inert><div class="collapse-inner"><div class="collapse-body">
+            <ul class="bullets">
+              <li>Built the LLM pipeline that generates trivia questions, with schema validation and prompt caching. Accuracy held above 98% on an 800+ question evaluation set.</li>
+              <li>Reduced incorrect questions by grounding generation in sourced sports data (RAG) and adding an LLM-as-judge review step before anything was published.</li>
+              <li>Shipped new features and game modes in the Snapback Trivia app (100K+ downloads) using React Native.</li>
+              <li>Shipped Snapback Experiences, a gameday planning web platform that handled more than 1,000 concurrent users.</li>
+              <li>Built an offline-first iOS app with multi-device sync and session authentication, released to TestFlight for internal beta.</li>
+            </ul>
+            <div class="badges"><span class="badge badge-gray">Python</span><span class="badge badge-gray">LLMs</span><span class="badge badge-gray">RAG</span><span class="badge badge-gray">React Native</span><span class="badge badge-gray">Swift</span></div>
+          </div></div></div>
         </article>
-        <article class="entry">
-          <div class="entry-head"><h3>Intelitrade</h3><span class="dates">Jan 2026 – May 2026</span></div>
-          <div class="entry-sub"><span>Software Engineer</span><span class="where">Chapel Hill, NC</span></div>
-          <ul>
-            <li>Developed an LLM sentiment analysis system using the OpenAI API and LangChain, validated against human ratings on more than 400 articles.</li>
-            <li>Built an internal AI agent for developer workflows with tool-scoped permissions and human approval steps. It was adopted across the team.</li>
-          </ul>
-          <div class="badges"><span class="badge badge-gray">OpenAI API</span><span class="badge badge-gray">LangChain</span><span class="badge badge-gray">Python</span></div>
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="x-intelitrade">
+            <span>
+              <span class="item-title">Intelitrade</span>
+              <span class="item-sub">Software Engineer, Chapel Hill, NC</span>
+              <span class="item-dates-sm">Jan 2026 – May 2026</span>
+              <span class="item-summary">LLM sentiment analysis and an internal AI agent for developer workflows.</span>
+            </span>
+            <span class="item-side"><span class="when">Jan 2026 – May 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="x-intelitrade" inert><div class="collapse-inner"><div class="collapse-body">
+            <ul class="bullets">
+              <li>Developed an LLM sentiment analysis system using the OpenAI API and LangChain, validated against human ratings on more than 400 articles.</li>
+              <li>Built an internal AI agent for developer workflows with tool-scoped permissions and human approval steps. It was adopted across the team.</li>
+            </ul>
+            <div class="badges"><span class="badge badge-gray">OpenAI API</span><span class="badge badge-gray">LangChain</span><span class="badge badge-gray">Python</span></div>
+          </div></div></div>
         </article>
-        <article class="entry">
-          <div class="entry-head"><h3>UNC Klotsa Group</h3><span class="dates">Dec 2025 – Jan 2026</span></div>
-          <div class="entry-sub"><span>Research Software Developer</span><span class="where">Chapel Hill, NC</span></div>
-          <ul>
-            <li>Built a faculty profile system in Next.js and PostgreSQL for more than 40 faculty, replacing a spreadsheet maintained by hand.</li>
-            <li>Connected profile edits to the matching engine in real time, so matches for 90+ clinician and faculty pairs updated immediately.</li>
-          </ul>
-          <div class="badges"><span class="badge badge-gray">Next.js</span><span class="badge badge-gray">PostgreSQL</span></div>
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="x-klotsa">
+            <span>
+              <span class="item-title">UNC Klotsa Group</span>
+              <span class="item-sub">Research Software Developer, Chapel Hill, NC</span>
+              <span class="item-dates-sm">Dec 2025 – Jan 2026</span>
+              <span class="item-summary">Faculty profile and matching system for 40+ faculty.</span>
+            </span>
+            <span class="item-side"><span class="when">Dec 2025 – Jan 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="x-klotsa" inert><div class="collapse-inner"><div class="collapse-body">
+            <ul class="bullets">
+              <li>Built a faculty profile system in Next.js and PostgreSQL for more than 40 faculty, replacing a spreadsheet maintained by hand.</li>
+              <li>Connected profile edits to the matching engine in real time, so matches for 90+ clinician and faculty pairs updated immediately.</li>
+            </ul>
+            <div class="badges"><span class="badge badge-gray">Next.js</span><span class="badge badge-gray">PostgreSQL</span></div>
+          </div></div></div>
         </article>
       </div>
     </section>
 
     <section id="projects">
-      <div class="section-head"><h2>Projects</h2></div>
-      <div class="entries">
-      <article class="entry" id="p-mailsentry">
-        <div class="project">
-          <div>
-            <div class="project-head"><h3>MailSentry</h3><span class="badge badge-success">Available on the Mac App Store</span></div>
-            <p class="summary">A macOS app that lets AI assistants work with your email without giving them access to your actual mail account. It runs entirely on your Mac and does not use any external servers.</p>
+      <div class="section-head">
+        <h2>Projects</h2>
+        <button class="btn btn-tertiary btn-sm toggle-all">Expand all</button>
+      </div>
+      <div class="items">
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="p-mailsentry">
+            <span>
+              <span class="item-title">MailSentry <span class="badge badge-success">Mac App Store</span></span>
+              <span class="item-summary">Lets AI assistants work with your email without access to your real mail account.</span>
+            </span>
+            <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="p-mailsentry" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
               <li><svg><use href="#i-check"/></svg>Apple MailKit extension and a sandboxed launchd helper that give assistants a read-only IMAP copy of your mail.</li>
               <li><svg><use href="#i-check"/></svg>Limits that copy to mail from your primary address, cleaned by a MIME parser and several detectors for hidden text.</li>
               <li><svg><use href="#i-check"/></svg>Any action an assistant takes goes through an MCP server with rate limiting and requires your approval.</li>
             </ul>
-          </div>
-          <aside>
-            <dl>
-              <div><dt>Platform</dt><dd>macOS</dd></div>
+            <dl class="facts-grid">
+              <div><dt>Platform</dt><dd>macOS, fully on-device</dd></div>
               <div><dt>Built with</dt><dd>Swift, MailKit, MCP, IMAP</dd></div>
               <div><dt>Testing</dt><dd>315+ Swift Testing cases</dd></div>
               <div><dt>Timeline</dt><dd>Aug 2026 to present</dd></div>
             </dl>
-          </aside>
-        </div>
-      </article>
-
-      <article class="entry" id="p-arceo">
-        <div class="project">
-          <div>
-            <div class="project-head"><h3>Arceo</h3><span class="badge badge-brand">In development</span></div>
-            <p class="summary">A platform that estimates what an AI agent will cost to run and what the worst outcome of its actions could be, before it is deployed.</p>
+          </div></div></div>
+        </article>
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="p-arceo">
+            <span>
+              <span class="item-title">Arceo <span class="badge badge-brand">In development</span></span>
+              <span class="item-summary">Estimates what an AI agent will cost and the worst it could do, before it ships.</span>
+            </span>
+            <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="p-arceo" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
               <li><svg><use href="#i-check"/></svg>Three-tier cost forecasting engine that predicts an agent's LLM spend before deployment, within 7% of actual spend.</li>
               <li><svg><use href="#i-check"/></svg>Scoring engine that identifies the most damaging thing an agent could do based on the tools it has access to.</li>
               <li><svg><use href="#i-check"/></svg>Found a sequence in OpenAI's six-agent customer service demo that could issue refunds without approval.</li>
               <li><svg><use href="#i-check"/></svg>GitHub Actions workflow that checks agent safety on each pull request and blocks the merge when risk is too high.</li>
             </ul>
-          </div>
-          <aside>
-            <dl>
+            <dl class="facts-grid">
               <div><dt>Type</dt><dd>AI agent security</dd></div>
               <div><dt>Built with</dt><dd>Python, FastAPI, TypeScript, GitHub Actions</dd></div>
               <div><dt>Timeline</dt><dd>Feb 2026 to present</dd></div>
             </dl>
-          </aside>
-        </div>
-      </article>
-
-      <article class="entry" id="p-backbuddy">
-        <div class="project">
-          <div>
-            <div class="project-head"><h3>BackBuddy</h3><span class="badge badge-alt">March 2026</span></div>
-            <p class="summary">A trading assistant for Kalshi sports markets that follows several NCAA games at once.</p>
+          </div></div></div>
+        </article>
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="p-backbuddy">
+            <span>
+              <span class="item-title">BackBuddy <span class="badge badge-alt">March 2026</span></span>
+              <span class="item-summary">A trading assistant for Kalshi sports markets that follows several NCAA games at once.</span>
+            </span>
+            <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="p-backbuddy" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
               <li><svg><use href="#i-check"/></svg>Integrated Kalshi's REST API with a FastAPI backend for automated trade execution.</li>
               <li><svg><use href="#i-check"/></svg>Live profit and loss tracking, with custom React hooks for alerts.</li>
               <li><svg><use href="#i-check"/></svg>Cash-out warnings tied to the current state of each game.</li>
             </ul>
-          </div>
-          <aside>
-            <dl>
+            <dl class="facts-grid">
               <div><dt>Type</dt><dd>Trading assistant</dd></div>
               <div><dt>Built with</dt><dd>FastAPI, React, Kalshi API</dd></div>
-              <div><dt>Timeline</dt><dd>March 2026</dd></div>
             </dl>
-          </aside>
-        </div>
-      </article>
+          </div></div></div>
+        </article>
       </div>
     </section>
 
@@ -511,36 +585,48 @@
 
     <section id="activities">
       <div class="section-head"><h2>Activities</h2></div>
-      <div class="accordion">
-        <div class="acc-item">
-          <button class="acc-trigger" aria-expanded="false" aria-controls="a1">App Team Carolina<span class="meta">Sep 2025 – Present</span><svg><use href="#i-chev"/></svg></button>
-          <div class="acc-panel" id="a1" hidden>Completed the iOS development curriculum, building SwiftUI apps using MVVM, JSON decoding, and REST API integration.</div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-trigger" aria-expanded="false" aria-controls="a2">Deloitte Workshop<span class="meta">Aug 2026 – Nov 2026</span><svg><use href="#i-chev"/></svg></button>
-          <div class="acc-panel" id="a2" hidden>Replaced a manual business workflow with an automated Salesforce process, including conditional branching and exception handling.</div>
-        </div>
+      <div class="items">
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="a-appteam">
+            <span>
+              <span class="item-title">App Team Carolina</span>
+              <span class="item-dates-sm">Sep 2025 – Present</span>
+            </span>
+            <span class="item-side"><span class="when">Sep 2025 – Present</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="a-appteam" inert><div class="collapse-inner"><div class="collapse-body">
+            <p class="text-sm">Completed the iOS development curriculum, building SwiftUI apps using MVVM, JSON decoding, and REST API integration.</p>
+          </div></div></div>
+        </article>
+        <article class="item">
+          <button class="item-trigger" aria-expanded="false" aria-controls="a-deloitte">
+            <span>
+              <span class="item-title">Deloitte Workshop</span>
+              <span class="item-dates-sm">Aug 2026 – Nov 2026</span>
+            </span>
+            <span class="item-side"><span class="when">Aug 2026 – Nov 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
+          </button>
+          <div class="collapse" id="a-deloitte" inert><div class="collapse-inner"><div class="collapse-body">
+            <p class="text-sm">Replaced a manual business workflow with an automated Salesforce process, including conditional branching and exception handling.</p>
+          </div></div></div>
+        </article>
       </div>
     </section>
 
     <section id="contact">
       <div class="contact-card">
-        <div>
-          <h2>Contact</h2>
-        </div>
+        <div><h2>Contact</h2></div>
         <div class="actions">
           <a class="btn btn-brand" href="mailto:akash8@unc.edu"><svg><use href="#i-mail"/></svg>akash8@unc.edu</a>
           <a class="btn btn-tertiary" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener"><svg><use href="#i-file"/></svg>Download resume</a>
         </div>
       </div>
     </section>
-
   </div>
 </main>
 
 <script>
-
-  // Mobile sidebar
+  // Mobile sidebar drawer
   const sidebar = document.getElementById('sidebar'), scrim = document.getElementById('scrim'), menu = document.getElementById('menu');
   const setMenu = open => { sidebar.classList.toggle('open', open); scrim.classList.toggle('open', open); menu.setAttribute('aria-expanded', open); };
   menu.addEventListener('click', () => setMenu(!sidebar.classList.contains('open')));
@@ -548,21 +634,40 @@
   sidebar.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
-  // Active nav item
-  const items = [...document.querySelectorAll('.nav-list a[href^="#"]')];
+  // Active nav item follows scroll
+  const navItems = [...document.querySelectorAll('.nav-list a[href^="#"]')];
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      items.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      navItems.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.page > section').forEach(s => io.observe(s));
 
-  // Accordion
-  document.querySelectorAll('.acc-trigger').forEach(b => b.addEventListener('click', () => {
-    const open = b.getAttribute('aria-expanded') !== 'true';
-    b.setAttribute('aria-expanded', open);
-    document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
+  // Expandable items
+  const setItem = (item, open) => {
+    const trigger = item.querySelector('.item-trigger');
+    item.classList.toggle('open', open);
+    trigger.setAttribute('aria-expanded', open);
+    document.getElementById(trigger.getAttribute('aria-controls')).inert = !open;
+  };
+  const syncToggle = section => {
+    const btn = section.querySelector('.toggle-all');
+    if (!btn) return;
+    const items = [...section.querySelectorAll('.item')];
+    btn.textContent = items.every(i => i.classList.contains('open')) ? 'Collapse all' : 'Expand all';
+  };
+  document.querySelectorAll('.item-trigger').forEach(t => t.addEventListener('click', () => {
+    const item = t.closest('.item');
+    setItem(item, !item.classList.contains('open'));
+    syncToggle(t.closest('section'));
+  }));
+  document.querySelectorAll('.toggle-all').forEach(btn => btn.addEventListener('click', () => {
+    const section = btn.closest('section');
+    const items = [...section.querySelectorAll('.item')];
+    const open = !items.every(i => i.classList.contains('open'));
+    items.forEach(i => setItem(i, open));
+    syncToggle(section);
   }));
 </script>
 </body>
