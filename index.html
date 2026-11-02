@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akash Sathish</title>
+<meta name="description" content="Akash Sathish: CS + Data Science at UNC Chapel Hill. AI engineer building LLM systems, agent security tools, and shipped iOS/macOS apps.">
+<meta property="og:title" content="Akash Sathish">
+<meta property="og:description" content="CS + Data Science at UNC. I build AI systems and ship apps.">
+<meta property="og:image" content="https://akashsathish.com/assets/og.jpg">
+<meta property="og:url" content="https://akashsathish.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16181d; --muted: #5d6470; --faint: #8a909a;
+    --line: #e7e7e4; --card: #ffffff; --accent: #2f7fbf; --accent-soft: #e8f2fa; --chip: #f1f1ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1013; --fg: #e9eaec; --muted: #a2a8b3; --faint: #6f7682;
+      --line: #23262c; --card: #15181c; --accent: #7bbbe8; --accent-soft: #15283a; --chip: #1b1e23;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1013; --fg: #e9eaec; --muted: #a2a8b3; --faint: #6f7682;
+    --line: #23262c; --card: #15181c; --accent: #7bbbe8; --accent-soft: #15283a; --chip: #1b1e23;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased; transition: background .2s, color .2s;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 85%, transparent);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; }
+  nav.scrolled { border-bottom-color: var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  nav .logo { font-weight: 700; text-decoration: none; letter-spacing: -.02em; }
+  nav .links { display: flex; gap: 22px; align-items: center; font-size: 14px; }
+  nav .links a { text-decoration: none; color: var(--muted); }
+  nav .links a:hover { color: var(--fg); }
+  .theme-btn { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
+               width: 34px; height: 34px; cursor: pointer; display: grid; place-items: center; }
+  .theme-btn:hover { color: var(--fg); }
+  .theme-btn svg { width: 16px; height: 16px; }
+  .sun { display: none; }
+  :root[data-theme="dark"] .sun { display: block; } :root[data-theme="dark"] .moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .sun { display: block; } :root:not([data-theme="light"]) .moon { display: none; }
+  }
+
+  header.hero { padding: 72px 0 56px; }
+  .hero-top { display: flex; gap: 28px; align-items: center; }
+  .avatar { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+            border: 3px solid var(--card); box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(0,0,0,.08); }
+  h1 { font-size: 44px; line-height: 1.1; margin: 0 0 6px; letter-spacing: -.035em; font-weight: 700; }
+  .tagline { margin: 0; color: var(--muted); font-size: 17px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 0 3px color-mix(in srgb, #3fb950 25%, transparent); }
+  .intro { font-size: 18px; margin: 32px 0 28px; max-width: 640px; }
+  .intro strong { font-weight: 600; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 10px; font-size: 14px;
+         font-weight: 500; text-decoration: none; border: 1px solid var(--line); background: var(--card); transition: transform .15s, border-color .15s; }
+  .btn:hover { border-color: var(--faint); transform: translateY(-1px); }
+  .btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .btn svg { width: 16px; height: 16px; }
+
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 0 0 28px; font-weight: 600; }
+
+  .job { display: grid; grid-template-columns: 150px 1fr; gap: 24px; margin-bottom: 34px; }
+  .job:last-child { margin-bottom: 0; }
+  .when { color: var(--faint); font-size: 13px; padding-top: 3px; }
+  .job h3 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .role { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
+  ul { margin: 0; padding-left: 18px; color: var(--muted); }
+  li { margin: 5px 0; } li::marker { color: var(--faint); }
+  li b { color: var(--fg); font-weight: 600; }
+
+  .projects { display: grid; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; transition: border-color .15s, transform .15s; }
+  .card:hover { border-color: var(--faint); transform: translateY(-2px); }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .card h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+  .kind { font-size: 13px; color: var(--accent); }
+  .card p { margin: 8px 0 14px; color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+  .badge { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+
+  .edu h3 { margin: 0; font-size: 17px; font-weight: 600; }
+  .edu .role { margin-bottom: 14px; }
+  .honors { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .skills { display: grid; gap: 18px; }
+  .skills-row { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: start; }
+  .skills-row .label { color: var(--faint); font-size: 13px; padding-top: 4px; }
+
+  footer { border-top: 1px solid var(--line); padding: 44px 0 64px; }
+  footer h2 { margin-bottom: 12px; }
+  footer p { color: var(--muted); margin: 0 0 20px; max-width: 520px; }
+  .fine { margin-top: 40px; font-size: 13px; color: var(--faint); }
+
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    nav .links a.hide-sm { display: none; }
+    header.hero { padding: 44px 0 40px; }
+    .hero-top { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .avatar { width: 88px; height: 88px; }
+    h1 { font-size: 34px; }
+    .intro { font-size: 17px; }
+    .job, .skills-row { grid-template-columns: 1fr; gap: 4px; }
+    .when { padding-top: 0; }
+    .card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="logo">Akash Sathish</a>
+    <div class="links">
+      <a href="#experience" class="hide-sm">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact" class="hide-sm">Contact</a>
+      <button class="theme-btn" id="theme" aria-label="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <img class="avatar" src="/assets/akash.jpg" alt="Akash Sathish" width="112" height="112">
+      <div>
+        <div class="status"><span class="dot"></span>UNC Chapel Hill · Class of 2028</div>
+        <h1>Akash Sathish</h1>
+        <p class="tagline">AI engineer · CS + Data Science @ UNC</p>
+      </div>
+    </div>
+    <p class="intro">
+      I build AI systems and ship them to real users. Most recently I was an <strong>AI Engineer at Snapback Sports</strong>,
+      building LLM pipelines and apps for 100K+ users. On the side I'm building <strong>Arceo</strong>, a security
+      platform for AI agents, and <strong>MailSentry</strong>, a macOS app on the App Store that lets AI assistants read your mail safely.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:akash8@unc.edu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        Email me
+      </a>
+      <a class="btn" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+        Resume
+      </a>
+      <a class="btn" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+  </header>
+
+  <section id="experience" class="reveal">
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="when mono">Jun – Sep 2026</div>
+      <div>
+        <h3>Snapback Sports</h3>
+        <div class="role">AI Engineer · New York City</div>
+        <ul>
+          <li>Built an LLM trivia pipeline with schema validation and prompt caching; an <b>800+ question</b> eval set held <b>98%+ accuracy</b></li>
+          <li>Prevented hallucinated trivia with <b>RAG</b> over sourced sports data and an <b>LLM-as-judge</b> verifier before publish</li>
+          <li>Shipped features and game modes in the Snapback Trivia app (<b>100K+ downloads</b>, React Native)</li>
+          <li>Shipped Snapback Experiences, a gameday planning web platform that sustained <b>1,000+ concurrent users</b></li>
+          <li>Engineered an offline-first iOS app with multi-device sync and session auth; shipped to TestFlight</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="when mono">Jan – May 2026</div>
+      <div>
+        <h3>Intelitrade</h3>
+        <div class="role">Software Engineer · Chapel Hill</div>
+        <ul>
+          <li>Developed LLM sentiment analysis (OpenAI API, LangChain) validated against human ratings on <b>400+ articles</b></li>
+          <li>Built an internal AI agent for dev workflow with tool-scoped actions and human approval gates; adopted team-wide</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="when mono">Dec 2025 – Jan 2026</div>
+      <div>
+        <h3>UNC Klotsa Group</h3>
+        <div class="role">Research Software Developer · Chapel Hill</div>
+        <ul>
+          <li>Built a faculty profile system (Next.js, PostgreSQL) for <b>40+ faculty</b>, replacing a manual spreadsheet</li>
+          <li>Synced profile edits to the matching engine in real time so <b>90+</b> clinician/faculty pairs matched instantly</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="reveal">
+    <h2>Projects</h2>
+    <div class="projects">
+      <div class="card">
+        <div class="card-head">
+          <h3>MailSentry</h3>
+          <span class="badge">On the Mac App Store</span>
+        </div>
+        <p>A macOS MailKit extension that gives AI assistants a read-only, scrubbed mirror of your mail instead of your real account. Hidden-text detectors, a MIME sanitizer, and an MCP server that gates agent actions behind your approval. Fully on-device.</p>
+        <div class="tags"><span class="tag">Swift</span><span class="tag">MailKit</span><span class="tag">MCP</span><span class="tag">IMAP</span><span class="tag">315+ tests</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Arceo</h3>
+          <span class="kind mono">AI agent security</span>
+        </div>
+        <p>Predicts what an AI agent will cost and how much damage it could do before it ships. Its cost forecaster lands within 7% of actual LLM spend, and its risk scorer found a chain in OpenAI's customer-service demo that could issue refunds without approval. Runs as a GitHub Action on every PR.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">TypeScript</span><span class="tag">GitHub Actions</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>BackBuddy</h3>
+          <span class="kind mono">Trading assistant</span>
+        </div>
+        <p>A live sports-trading assistant on Kalshi's API: automated execution, real-time P&amp;L tracking, and cashout warnings tied to game state across multiple NCAA games at once.</p>
+        <div class="tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Kalshi API</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal edu">
+    <h2>Education</h2>
+    <div class="job">
+      <div class="when mono">Class of 2028</div>
+      <div>
+        <h3>University of North Carolina at Chapel Hill</h3>
+        <div class="role">B.S. Computer Science · B.S. Data Science · Minor in AI · GPA 3.8</div>
+        <div class="honors">
+          <span class="badge">Dean's List</span>
+          <span class="badge">Fidelity Hack Winner</span>
+          <span class="badge">Anthropic MCP: Advanced</span>
+          <span class="badge">Eagle Scout</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="reveal">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skills-row">
+        <div class="label mono">Languages</div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Swift / SwiftUI</span><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">Java</span><span class="tag">SQL</span><span class="tag">C</span></div>
+      </div>
+      <div class="skills-row">
+        <div class="label mono">AI</div>
+        <div class="tags"><span class="tag">LLM pipelines</span><span class="tag">RAG</span><span class="tag">Evals</span><span class="tag">MCP</span><span class="tag">Agents</span><span class="tag">Claude Code</span></div>
+      </div>
+      <div class="skills-row">
+        <div class="label mono">Tools</div>
+        <div class="tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Next.js</span><span class="tag">React Native</span><span class="tag">Cloudflare Workers</span><span class="tag">Xcode</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap reveal">
+    <h2>Contact</h2>
+    <p>Looking for internships and interesting problems in AI engineering. The fastest way to reach me is email.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:akash8@unc.edu">akash8@unc.edu</a>
+      <a class="btn" href="https://www.linkedin.com/in/akashsathish/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/Akash-Sathish8" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="fine mono">© <span id="yr">2026</span> Akash Sathish · Chapel Hill, NC</div>
+  </div>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  document.getElementById('theme').addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  });
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
