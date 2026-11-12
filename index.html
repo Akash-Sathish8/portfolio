@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#FFFFFF">
 <title>Akash Sathish</title>
-<meta name="description" content="Akash Sathish studies Computer Science and Data Science at UNC Chapel Hill. Incoming Software at Fidelity Investments, previously AI Engineer at Snapback Sports.">
+<meta name="description" content="Computer Science and Data Science at UNC Chapel Hill. Incoming Software at Fidelity Investments, previously AI Engineer at Snapback Sports.">
 <meta property="og:title" content="Akash Sathish">
 <meta property="og:description" content="Computer Science and Data Science at UNC Chapel Hill. Incoming Software at Fidelity Investments.">
 <meta property="og:image" content="https://akashsathish.com/assets/og.jpg">
@@ -17,7 +17,7 @@
 <link rel="icon" href="/favicon-v2-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon-v2.png">
 <link rel="preload" href="/assets/fonts/inter-latin-var-v1.woff2" as="font" type="font/woff2" crossorigin>
-<script>if (document.hidden) document.documentElement.classList.add('no-enter');</script>
+<script>document.documentElement.classList.add('js'); if (document.hidden) document.documentElement.classList.add('no-enter');</script>
 <style>
   /* Fonts: self-hosted Inter, metric-matched fallback so nothing shifts when it loads */
   @font-face {
@@ -73,11 +73,12 @@
     --gutter: clamp(16px, 4vw, 48px);
     --section-y: clamp(32px, 5vw, 64px);
     --topbar-h: 56px;
+    --page-max: 816px;
   }
 
   * { box-sizing: border-box; }
   html {
-    scroll-behavior: smooth; scroll-padding-top: 24px;
+    scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + env(safe-area-inset-top, 0px) + 8px);
     -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
   }
   html.lock { overflow: hidden; }
@@ -144,7 +145,7 @@
   .badge-brand { background: var(--brand-softer); border-color: var(--border-brand-subtle); color: var(--fg-brand-strong); }
   .badge-success { background: var(--success-soft); border-color: var(--border-success-subtle); color: var(--fg-success-strong); }
 
-  /* Sidebar: fixed on desktop, swipeable drawer below 1024px */
+  /* Drawer: phones and small tablets only; desktop uses the top bar nav */
   .sidebar {
     position: fixed; top: 0; left: 0; width: min(256px, 85vw); height: 100vh; height: 100dvh; z-index: 30;
     background: var(--neutral-primary-soft); border-right: 1px solid var(--border-default);
@@ -184,13 +185,23 @@
   .scrim { position: fixed; inset: 0; z-index: 25; background: rgb(9 9 11 / 0.4); opacity: 0; pointer-events: none; transition: opacity 400ms var(--ease-drawer); }
   .scrim.open { opacity: 1; pointer-events: auto; }
 
-  /* Mobile top bar */
+  /* Top bar: sticky on every width, aligned to the centered column */
   .topbar {
-    position: sticky; top: 0; z-index: 20; height: calc(var(--topbar-h) + env(safe-area-inset-top, 0px));
-    padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    background: var(--neutral-primary-soft); border-bottom: 1px solid var(--border-default);
+    position: sticky; top: 0; z-index: 20; padding-top: env(safe-area-inset-top, 0px);
+    background: rgb(255 255 255 / 0.82); -webkit-backdrop-filter: saturate(180%) blur(12px); backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid transparent; transition: border-color 200ms ease, box-shadow 200ms ease;
   }
+  .topbar.scrolled { border-bottom-color: var(--border-default); box-shadow: var(--shadow-2xs); }
+  .topbar-inner {
+    max-width: var(--page-max); margin: 0 auto; height: var(--topbar-h);
+    padding: 0 max(var(--gutter), env(safe-area-inset-right, 0px)) 0 max(var(--gutter), env(safe-area-inset-left, 0px));
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .topnav { display: none; align-items: center; gap: 2px; }
+  .topnav .nav-item { padding: 6px 10px; color: var(--body); transition: background-color 150ms ease, color 150ms ease; }
+  .topnav .nav-item.active { color: var(--heading); }
+  .topnav .btn { margin-left: 10px; }
   .topbar .profile { padding: 0; }
   .topbar .profile img { width: 32px; height: 32px; }
   .topbar .profile b { white-space: nowrap; }
@@ -202,7 +213,7 @@
   main { min-width: 0; }
   .page {
     container: page / inline-size;
-    max-width: 960px; margin: 0 auto;
+    max-width: var(--page-max); margin: 0 auto;
     padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
     padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
   }
@@ -210,39 +221,36 @@
   .page > section:last-of-type { border-bottom: 0; padding-bottom: calc(var(--section-y) + env(safe-area-inset-bottom, 0px)); }
   .section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: clamp(24px, 2vw + 16px, 32px); }
 
-  @media (max-width: 1023px) {
-    html { scroll-padding-top: calc(var(--topbar-h) + env(safe-area-inset-top, 0px) + 16px); }
+  @media (min-width: 820px) {
+    .sidebar, .scrim, #menu, .crumb { display: none; }
+    .topnav { display: flex; }
   }
-  @media (min-width: 1024px) {
-    .sidebar { transform: none; transition: none; width: 256px; }
-    .sidebar.open { box-shadow: none; }
-    .sidebar-close, .topbar, .scrim { display: none; }
-    main { margin-left: 256px; }
+
+  .site-foot {
+    max-width: var(--page-max); margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px;
+    padding: 0 var(--gutter) calc(40px + env(safe-area-inset-bottom, 0px)); font-size: 13px; color: var(--body-subtle);
   }
 
   /* Overview: single column, side-by-side once the column has room */
-  .overview { display: grid; gap: clamp(24px, 3vw, 48px); }
+  .overview { display: grid; justify-items: center; text-align: center; gap: clamp(20px, 2.5vw, 28px); padding-top: clamp(0px, 1.5vw, 16px); }
+  .overview .lead { margin: 0 auto; }
   .portrait {
-    width: clamp(112px, 28vw, 160px); aspect-ratio: 1; padding: 4px; border-radius: var(--radius-base);
+    width: clamp(128px, 30vw, 168px); aspect-ratio: 1; padding: 4px; border-radius: var(--radius-base);
     box-shadow: 0 0 0 1px var(--border-default); background: var(--neutral-primary-soft);
   }
   .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-default); }
   .overview h1 { margin-bottom: 12px; }
   .overview .role { color: var(--heading); font-weight: 500; margin-bottom: clamp(16px, 2vw, 24px); font-size: clamp(15px, 0.1vw + 14.6px, 16px); line-height: 1.5; }
-  .overview .actions { margin-top: clamp(24px, 2vw + 16px, 32px); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .facts { margin: clamp(24px, 2vw + 16px, 32px) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 12px 32px; }
+  .overview .actions { margin-top: clamp(24px, 2vw + 16px, 32px); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
+  .facts { margin: clamp(24px, 2vw + 16px, 32px) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 32px; }
   .facts li { display: flex; align-items: center; font-size: 14px; line-height: 1.5; min-width: 0; }
   .facts svg { width: 16px; height: 16px; margin-right: 6px; color: var(--body); }
   .facts a { overflow-wrap: anywhere; }
-  @container page (min-width: 720px) {
-    .overview { grid-template-columns: 1fr clamp(180px, 26cqi, 240px); align-items: start; }
-    .portrait { width: 100%; order: 2; }
-  }
   @container page (max-width: 519px) {
     .overview .actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
     .btn-group { display: flex; width: 100%; }
     .btn-group .btn { flex: 1; padding: 8px 6px; }
-    .facts { flex-direction: column; }
+    .facts { flex-direction: column; align-items: center; }
   }
 
   /* First-visit entrance: rare, so a short stagger is allowed */
@@ -261,6 +269,10 @@
     transition: box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out);
   }
   .item.open { box-shadow: var(--shadow-md); border-color: var(--border-default-strong); }
+  @media (hover: hover) and (pointer: fine) {
+    .item:hover { border-color: var(--border-default-strong); box-shadow: var(--shadow-md); }
+    .topnav .nav-item:hover { color: var(--heading); }
+  }
   .item-trigger {
     width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: start; text-align: left;
     padding: 14px 16px; min-height: 56px; border: 0; background: transparent; cursor: pointer; font: inherit; color: inherit;
@@ -347,14 +359,18 @@
 
   /* Contact */
   .contact-card {
-    display: grid; gap: 16px 24px; align-items: center; padding: clamp(16px, 2.5vw + 8px, 32px); border-radius: var(--radius-base);
+    display: grid; justify-items: center; text-align: center; gap: 12px; padding: clamp(16px, 2.5vw + 8px, 32px); border-radius: var(--radius-base);
     background: var(--neutral-primary-soft); border: 1px solid var(--border-default); box-shadow: var(--shadow-sm);
   }
-  .contact-card .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  @container page (min-width: 640px) { .contact-card { grid-template-columns: 1fr auto; } }
+  .contact-card .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
   @container page (max-width: 519px) {
-    .contact-card .actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .contact-card .actions { display: grid; grid-template-columns: 1fr; gap: 8px; width: 100%; }
   }
+
+  /* Sections settle in once as they scroll into view (only when JS is running) */
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  @media print { .js .reveal { opacity: 1; transform: none; } .topbar { position: static; } }
 
   /* Reduced motion: keep fades, drop movement */
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -362,6 +378,7 @@
     html { scroll-behavior: auto; }
     .enter { animation: fade 200ms ease both; }
     .sidebar, .collapse, .chev { transition: none; }
+    .js .reveal { transform: none; }
     .btn:active { transform: none; }
     .collapse-body, .bullets li, .checklist li { transform: none !important; transition-property: opacity; transition-delay: 0ms !important; }
   }
@@ -420,15 +437,25 @@
 <div class="scrim" id="scrim"></div>
 
 <main>
-  <header class="topbar">
-    <div style="display:flex;align-items:center;gap:8px;min-width:0">
-      <a class="profile" href="#overview">
-        <img src="/assets/img/avatar-v3-96.jpg" alt="" width="32" height="32">
-        <span><b>Akash Sathish</b></span>
-      </a>
-      <span class="crumb" id="crumb"></span>
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <a class="profile" href="#overview">
+          <img src="/assets/img/avatar-v3-96.jpg" alt="" width="32" height="32">
+          <span><b>Akash Sathish</b></span>
+        </a>
+        <span class="crumb" id="crumb"></span>
+      </div>
+      <nav class="topnav" aria-label="Sections">
+        <a class="nav-item" href="#experience">Experience</a>
+        <a class="nav-item" href="#projects">Projects</a>
+        <a class="nav-item" href="#education">Education</a>
+        <a class="nav-item" href="#activities">Activities</a>
+        <a class="nav-item" href="#contact">Contact</a>
+        <a class="btn btn-tertiary btn-sm" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+      <button class="btn btn-ghost" id="menu" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
     </div>
-    <button class="btn btn-ghost" id="menu" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
   </header>
 
   <div class="page">
@@ -436,15 +463,15 @@
       <div class="overview">
         <div class="portrait enter enter-2">
           <picture>
-            <source type="image/avif" srcset="/assets/img/portrait-v3-160.avif 160w, /assets/img/portrait-v3-320.avif 320w, /assets/img/portrait-v3-480.avif 480w, /assets/img/portrait-v3-640.avif 640w" sizes="(max-width: 719px) 160px, 240px">
-            <source type="image/webp" srcset="/assets/img/portrait-v3-160.webp 160w, /assets/img/portrait-v3-320.webp 320w, /assets/img/portrait-v3-480.webp 480w, /assets/img/portrait-v3-640.webp 640w" sizes="(max-width: 719px) 160px, 240px">
-            <img src="/assets/img/portrait-v3-480.jpg" srcset="/assets/img/portrait-v3-160.jpg 160w, /assets/img/portrait-v3-320.jpg 320w, /assets/img/portrait-v3-480.jpg 480w, /assets/img/portrait-v3-640.jpg 640w" sizes="(max-width: 719px) 160px, 240px" alt="Portrait of Akash Sathish" width="240" height="240" fetchpriority="high" decoding="async">
+            <source type="image/avif" srcset="/assets/img/portrait-v3-160.avif 160w, /assets/img/portrait-v3-320.avif 320w, /assets/img/portrait-v3-480.avif 480w, /assets/img/portrait-v3-640.avif 640w" sizes="168px">
+            <source type="image/webp" srcset="/assets/img/portrait-v3-160.webp 160w, /assets/img/portrait-v3-320.webp 320w, /assets/img/portrait-v3-480.webp 480w, /assets/img/portrait-v3-640.webp 640w" sizes="168px">
+            <img src="/assets/img/portrait-v3-480.jpg" srcset="/assets/img/portrait-v3-160.jpg 160w, /assets/img/portrait-v3-320.jpg 320w, /assets/img/portrait-v3-480.jpg 480w, /assets/img/portrait-v3-640.jpg 640w" sizes="168px" alt="Portrait of Akash Sathish" width="240" height="240" fetchpriority="high" decoding="async">
           </picture>
         </div>
         <div>
           <h1 class="enter enter-1">Akash Sathish</h1>
-          <p class="role enter enter-2">Computer Science and Data Science, University of North Carolina at Chapel Hill</p>
-          <p class="lead enter enter-3">Computer Science and Data Science at UNC, minor in Artificial Intelligence.<br>Incoming Software @ Fidelity Investments. Previous AI Engineer at Snapback Sports.</p>
+          <p class="role enter enter-2">Computer Science and Data Science at UNC Chapel Hill, minor in Artificial Intelligence</p>
+          <p class="lead enter enter-3">Incoming Software @ Fidelity Investments.<br>Previously AI Engineer at Snapback Sports.</p>
           <div class="actions enter enter-4">
             <a class="btn btn-brand" href="mailto:akash8@unc.edu"><svg><use href="#i-mail"/></svg>Email</a>
             <div class="btn-group" role="group" aria-label="Profiles">
@@ -455,13 +482,12 @@
           </div>
           <ul class="facts enter enter-5">
             <li><svg><use href="#i-pin"/></svg>Chapel Hill, NC</li>
-            <li><svg><use href="#i-mail"/></svg><a href="mailto:akash8@unc.edu">akash8@unc.edu</a></li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section id="experience" data-label="Experience">
+    <section class="reveal" id="experience" data-label="Experience">
       <div class="section-head">
         <h2>Experience</h2>
         <button class="btn btn-tertiary btn-sm toggle-all">Expand all</button>
@@ -473,17 +499,17 @@
               <span class="item-title">Snapback Sports</span>
               <span class="item-sub">AI Engineer, New York, NY</span>
               <span class="item-dates-sm">Jun 2026 – Sep 2026</span>
-              <span class="item-summary">Built the LLM pipeline behind Snapback Trivia, an app with 100K+ downloads.</span>
+              <span class="item-summary">LLM pipeline behind Snapback Trivia (100K+ downloads).</span>
             </span>
             <span class="item-side"><span class="when">Jun 2026 – Sep 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="x-snapback" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="bullets">
-              <li>Built the LLM pipeline that generates trivia questions, with schema validation and prompt caching. Accuracy held above 98% on an 800+ question evaluation set.</li>
-              <li>Reduced incorrect questions by grounding generation in sourced sports data (RAG) and adding an LLM-as-judge review step before anything was published.</li>
-              <li>Shipped new features and game modes in the Snapback Trivia app (100K+ downloads) using React Native.</li>
-              <li>Shipped Snapback Experiences, a gameday planning web platform that handled more than 1,000 concurrent users.</li>
-              <li>Built an offline-first iOS app with multi-device sync and session authentication, released to TestFlight for internal beta.</li>
+              <li>Built the trivia question pipeline with schema validation and prompt caching: 98%+ accuracy on an 800+ question eval set.</li>
+              <li>Cut wrong answers with RAG over sourced sports data and an LLM-as-judge review before publishing.</li>
+              <li>Shipped features and game modes in the React Native app.</li>
+              <li>Shipped Snapback Experiences, a gameday planning platform serving 1,000+ concurrent users.</li>
+              <li>Built an offline-first iOS app with multi-device sync and auth, in internal TestFlight beta.</li>
             </ul>
             <div class="badges"><span class="badge badge-gray">Python</span><span class="badge badge-gray">LLMs</span><span class="badge badge-gray">RAG</span><span class="badge badge-gray">React Native</span><span class="badge badge-gray">Swift</span></div>
           </div></div></div>
@@ -494,14 +520,14 @@
               <span class="item-title">Intelitrade</span>
               <span class="item-sub">Software Engineer, Chapel Hill, NC</span>
               <span class="item-dates-sm">Jan 2026 – May 2026</span>
-              <span class="item-summary">LLM sentiment analysis and an internal AI agent for developer workflows.</span>
+              <span class="item-summary">LLM sentiment analysis and an internal dev agent.</span>
             </span>
             <span class="item-side"><span class="when">Jan 2026 – May 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="x-intelitrade" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="bullets">
-              <li>Developed an LLM sentiment analysis system using the OpenAI API and LangChain, validated against human ratings on more than 400 articles.</li>
-              <li>Built an internal AI agent for developer workflows with tool-scoped permissions and human approval steps. It was adopted across the team.</li>
+              <li>LLM sentiment analysis with the OpenAI API and LangChain, validated against human ratings on 400+ articles.</li>
+              <li>Internal AI agent for developer workflows with scoped tool permissions and human approval, adopted team-wide.</li>
             </ul>
             <div class="badges"><span class="badge badge-gray">OpenAI API</span><span class="badge badge-gray">LangChain</span><span class="badge badge-gray">Python</span></div>
           </div></div></div>
@@ -512,14 +538,14 @@
               <span class="item-title">UNC Klotsa Group</span>
               <span class="item-sub">Research Software Developer, Chapel Hill, NC</span>
               <span class="item-dates-sm">Dec 2025 – Jan 2026</span>
-              <span class="item-summary">Faculty profile and matching system for 40+ faculty.</span>
+              <span class="item-summary">Faculty profiles and matching for 40+ faculty.</span>
             </span>
             <span class="item-side"><span class="when">Dec 2025 – Jan 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="x-klotsa" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="bullets">
-              <li>Built a faculty profile system in Next.js and PostgreSQL for more than 40 faculty, replacing a spreadsheet maintained by hand.</li>
-              <li>Connected profile edits to the matching engine in real time, so matches for 90+ clinician and faculty pairs updated immediately.</li>
+              <li>Replaced a hand-kept spreadsheet with a Next.js and PostgreSQL profile system for 40+ faculty.</li>
+              <li>Profile edits update matches for 90+ clinician and faculty pairs in real time.</li>
             </ul>
             <div class="badges"><span class="badge badge-gray">Next.js</span><span class="badge badge-gray">PostgreSQL</span></div>
           </div></div></div>
@@ -527,7 +553,7 @@
       </div>
     </section>
 
-    <section id="projects" data-label="Projects">
+    <section class="reveal" id="projects" data-label="Projects">
       <div class="section-head">
         <h2>Projects</h2>
         <button class="btn btn-tertiary btn-sm toggle-all">Expand all</button>
@@ -537,21 +563,21 @@
           <button class="item-trigger" aria-expanded="false" aria-controls="p-mailsentry">
             <span>
               <span class="item-title">MailSentry <span class="badge badge-success">Mac App Store</span></span>
-              <span class="item-summary">Lets AI assistants work with your email without access to your real mail account.</span>
+              <span class="item-summary">Lets AI assistants use your email without touching your real account.</span>
             </span>
             <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="p-mailsentry" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
-              <li><svg><use href="#i-check"/></svg>Apple MailKit extension and a sandboxed launchd helper that give assistants a read-only IMAP copy of your mail.</li>
-              <li><svg><use href="#i-check"/></svg>Limits that copy to mail from your primary address, cleaned by a MIME parser and several detectors for hidden text.</li>
-              <li><svg><use href="#i-check"/></svg>Any action an assistant takes goes through an MCP server with rate limiting and requires your approval.</li>
+              <li><svg><use href="#i-check"/></svg>MailKit extension and sandboxed launchd helper give assistants a read-only IMAP copy of your mail.</li>
+              <li><svg><use href="#i-check"/></svg>Copy is limited to your primary address and cleaned by a MIME parser and hidden-text detectors.</li>
+              <li><svg><use href="#i-check"/></svg>Every assistant action goes through a rate-limited MCP server and needs your approval.</li>
             </ul>
             <dl class="facts-grid">
-              <div><dt>Platform</dt><dd>macOS, fully on-device</dd></div>
+              <div><dt>Platform</dt><dd>macOS, on-device</dd></div>
               <div><dt>Built with</dt><dd>Swift, MailKit, MCP, IMAP</dd></div>
-              <div><dt>Testing</dt><dd>315+ Swift Testing cases</dd></div>
-              <div><dt>Timeline</dt><dd>Aug 2026 to present</dd></div>
+              <div><dt>Testing</dt><dd>315+ Swift tests</dd></div>
+              <div><dt>Timeline</dt><dd>Aug 2026 – Present</dd></div>
             </dl>
           </div></div></div>
         </article>
@@ -559,21 +585,20 @@
           <button class="item-trigger" aria-expanded="false" aria-controls="p-arceo">
             <span>
               <span class="item-title">Arceo <span class="badge badge-brand">In development</span></span>
-              <span class="item-summary">Estimates what an AI agent will cost and the worst it could do, before it ships.</span>
+              <span class="item-summary">Predicts an AI agent's cost and worst-case behavior before it ships.</span>
             </span>
             <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="p-arceo" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
-              <li><svg><use href="#i-check"/></svg>Three-tier cost forecasting engine that predicts an agent's LLM spend before deployment, within 7% of actual spend.</li>
-              <li><svg><use href="#i-check"/></svg>Scoring engine that identifies the most damaging thing an agent could do based on the tools it has access to.</li>
-              <li><svg><use href="#i-check"/></svg>Found a sequence in OpenAI's six-agent customer service demo that could issue refunds without approval.</li>
-              <li><svg><use href="#i-check"/></svg>GitHub Actions workflow that checks agent safety on each pull request and blocks the merge when risk is too high.</li>
+              <li><svg><use href="#i-check"/></svg>Three-tier forecast of an agent's LLM spend before deployment, within 7% of actual.</li>
+              <li><svg><use href="#i-check"/></svg>Scores the most damaging thing an agent could do with its tools.</li>
+              <li><svg><use href="#i-check"/></svg>Found a path in OpenAI's six-agent customer service demo that issues refunds without approval.</li>
+              <li><svg><use href="#i-check"/></svg>GitHub Action that checks agent risk on every PR and blocks risky merges.</li>
             </ul>
             <dl class="facts-grid">
-              <div><dt>Type</dt><dd>AI agent security</dd></div>
               <div><dt>Built with</dt><dd>Python, FastAPI, TypeScript, GitHub Actions</dd></div>
-              <div><dt>Timeline</dt><dd>Feb 2026 to present</dd></div>
+              <div><dt>Timeline</dt><dd>Feb 2026 – Present</dd></div>
             </dl>
           </div></div></div>
         </article>
@@ -581,18 +606,17 @@
           <button class="item-trigger" aria-expanded="false" aria-controls="p-backbuddy">
             <span>
               <span class="item-title">BackBuddy <span class="badge badge-alt">March 2026</span></span>
-              <span class="item-summary">A trading assistant for Kalshi sports markets that follows several NCAA games at once.</span>
+              <span class="item-summary">Kalshi sports trading assistant that tracks several NCAA games at once.</span>
             </span>
             <span class="item-side"><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="p-backbuddy" inert><div class="collapse-inner"><div class="collapse-body">
             <ul class="checklist">
-              <li><svg><use href="#i-check"/></svg>Integrated Kalshi's REST API with a FastAPI backend for automated trade execution.</li>
-              <li><svg><use href="#i-check"/></svg>Live profit and loss tracking, with custom React hooks for alerts.</li>
-              <li><svg><use href="#i-check"/></svg>Cash-out warnings tied to the current state of each game.</li>
+              <li><svg><use href="#i-check"/></svg>Automated trading via Kalshi's REST API and a FastAPI backend.</li>
+              <li><svg><use href="#i-check"/></svg>Live P&amp;L tracking with React alert hooks.</li>
+              <li><svg><use href="#i-check"/></svg>Cash-out warnings based on live game state.</li>
             </ul>
             <dl class="facts-grid">
-              <div><dt>Type</dt><dd>Trading assistant</dd></div>
               <div><dt>Built with</dt><dd>FastAPI, React, Kalshi API</dd></div>
             </dl>
           </div></div></div>
@@ -600,7 +624,7 @@
       </div>
     </section>
 
-    <section id="education" data-label="Education">
+    <section class="reveal" id="education" data-label="Education">
       <div class="section-head"><h2>Education</h2></div>
       <div class="edu-title">
         <h3>University of North Carolina at Chapel Hill</h3>
@@ -610,25 +634,24 @@
           <tbody>
             <tr><th scope="row">Degrees</th><td>B.S. Computer Science, B.S. Data Science</td></tr>
             <tr><th scope="row">Minor</th><td>Artificial Intelligence</td></tr>
-            <tr><th scope="row">Coursework</th><td>Data Structures and Algorithms, Computer Programming, Systems Fundamentals, Discrete Mathematics</td></tr>
+            <tr><th scope="row">Coursework</th><td>Data Structures and Algorithms, Systems Fundamentals, Discrete Mathematics</td></tr>
             <tr><th scope="row">Honors</th><td>Dean's List, Fidelity Hackathon Winner, Eagle Scout</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3 class="subhead">Technical skills</h3>
+      <h3 class="subhead">Skills</h3>
       <div class="table-wrap">
         <table>
-          <thead><tr><th scope="col">Area</th><th scope="col">Skills</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Languages</th><td>Python, Swift, SwiftUI, Java, SQL, TypeScript, JavaScript, C</td></tr>
-            <tr><th scope="row">Frameworks and tools</th><td>FastAPI, Next.js, React Native, PostgreSQL, Cloudflare Workers, Xcode, Swift Testing</td></tr>
+            <tr><th scope="row">Languages</th><td>Python, Swift, TypeScript, JavaScript, Java, SQL, C</td></tr>
+            <tr><th scope="row">Tools</th><td>SwiftUI, FastAPI, Next.js, React Native, PostgreSQL, Cloudflare Workers, Xcode, Swift Testing</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section id="activities" data-label="Activities">
+    <section class="reveal" id="activities" data-label="Activities">
       <div class="section-head"><h2>Activities</h2></div>
       <div class="items">
         <article class="item">
@@ -640,7 +663,7 @@
             <span class="item-side"><span class="when">Sep 2025 – Present</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="a-appteam" inert><div class="collapse-inner"><div class="collapse-body">
-            <p class="text-sm">Completed the iOS development curriculum, building SwiftUI apps using MVVM, JSON decoding, and REST API integration.</p>
+            <p class="text-sm">Completed the iOS curriculum: SwiftUI apps with MVVM, JSON decoding, and REST APIs.</p>
           </div></div></div>
         </article>
         <article class="item">
@@ -652,29 +675,33 @@
             <span class="item-side"><span class="when">Aug 2026 – Nov 2026</span><span class="chev"><svg><use href="#i-chev"/></svg></span></span>
           </button>
           <div class="collapse" id="a-deloitte" inert><div class="collapse-inner"><div class="collapse-body">
-            <p class="text-sm">Replaced a manual business workflow with an automated Salesforce process, including conditional branching and exception handling.</p>
+            <p class="text-sm">Automated a manual business workflow in Salesforce with conditional branching and exception handling.</p>
           </div></div></div>
         </article>
       </div>
     </section>
 
-    <section id="contact" data-label="Contact">
+    <section class="reveal" id="contact" data-label="Contact">
       <div class="contact-card">
-        <div><h2>Contact</h2></div>
+        <h2>Contact</h2>
         <div class="actions">
           <a class="btn btn-brand" href="mailto:akash8@unc.edu"><svg><use href="#i-mail"/></svg>akash8@unc.edu</a>
-          <a class="btn btn-tertiary" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener"><svg><use href="#i-file"/></svg>Download resume</a>
+          <a class="btn btn-tertiary" href="/assets/Akash_Sathish_Resume.pdf" target="_blank" rel="noopener"><svg><use href="#i-file"/></svg>Resume</a>
         </div>
       </div>
     </section>
   </div>
+  <footer class="site-foot">
+    <span>© 2026 Akash Sathish</span>
+    <span>Chapel Hill, NC</span>
+  </footer>
 </main>
 
 <script>
   const root = document.documentElement;
   const sidebar = document.getElementById('sidebar'), scrim = document.getElementById('scrim');
   const menu = document.getElementById('menu'), closeBtn = document.getElementById('close');
-  const desktop = matchMedia('(min-width: 1024px)');
+  const desktop = matchMedia('(min-width: 820px)');
 
   // Drawer: scroll lock, focus handling, inert when off-screen
   const isOpen = () => sidebar.classList.contains('open');
@@ -689,7 +716,7 @@
     if (open) { sidebar.inert = false; closeBtn.focus({ preventScroll: true }); }
     else {
       if (focusWasInside && !desktop.matches) menu.focus({ preventScroll: true });
-      sidebar.inert = !desktop.matches;
+      sidebar.inert = true;
     }
   };
   menu.addEventListener('click', () => setMenu(true));
@@ -699,7 +726,7 @@
   addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen()) setMenu(false); });
 
   // Crossing into desktop (rotation, window resize) clears any drawer state
-  const syncLayout = () => { if (desktop.matches) setMenu(false); else sidebar.inert = !isOpen(); };
+  const syncLayout = () => { if (desktop.matches && isOpen()) setMenu(false); sidebar.inert = !isOpen(); };
   desktop.addEventListener('change', syncLayout);
   syncLayout();
 
@@ -737,7 +764,7 @@
 
   // Active section: sidebar highlight + mobile top bar label
   const crumb = document.getElementById('crumb');
-  const navItems = [...document.querySelectorAll('.nav-list a[href^="#"]')];
+  const navItems = [...document.querySelectorAll('.nav-list a[href^="#"], .topnav a[href^="#"]')];
   const sections = [...document.querySelectorAll('.page > section')];
   const setActive = section => {
     navItems.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + section.id));
@@ -751,6 +778,17 @@
   sections.forEach(s => io.observe(s));
   // The last section is too short to reach the trigger line, so mark it once the page bottoms out
   addEventListener('scroll', () => { if (atBottom()) setActive(sections[sections.length - 1]); }, { passive: true });
+
+  // Top bar picks up a border once the page scrolls under it
+  const topbar = document.getElementById('topbar');
+  const onScroll = () => topbar.classList.toggle('scrolled', scrollY > 4);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // Sections settle in once on first view
+  const reveal = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
 
   // Expandable items
   const setItem = (item, open) => {
